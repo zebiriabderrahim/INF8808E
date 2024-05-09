@@ -15,5 +15,9 @@ export function getContents (d) {
       + A bold label for the player's line count
         followed by the number of lines
   */
-  return ''
+
+  const title = `<div style="font-family: Grenze Gotish; font-size: 24px; font-weight: normal;">${d.group}</div>`
+  const player = `<div><b>Player:</b> ${d.player}</div>`
+  const count = `<div><b>Count:</b> ${d.count}</div>`
+  return title + player + count
 }
