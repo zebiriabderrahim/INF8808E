@@ -15,9 +15,21 @@ export function getContents (d) {
       + A bold label for the player's line count
         followed by the number of lines
   */
+  const tooltip = d3.create()
 
-  const title = `<div style="font-family: Grenze Gotish; font-size: 24px; font-weight: normal;">${d.group}</div>`
-  const player = `<div><b>Player:</b> ${d.player}</div>`
-  const count = `<div><b>Count:</b> ${d.count}</div>`
-  return title + player + count
+  tooltip.append('div')
+    .append('text')
+    .style('font-family', 'Grenze Gotisch')
+    .style('font-size', '24px')
+    .style('font-weight', 'normal')
+    .style('margin-bottom', '10px')
+    .text(d.Player)
+
+
+  tooltip.append('div')
+    .append('text')
+    .style('font-weight', 'bold')
+    .text( d.Count + ' lines')
+
+  return tooltip.node().innerHTML
 }
