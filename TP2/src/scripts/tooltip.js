@@ -29,7 +29,7 @@ export function getContents (d) {
   tooltip.append('div')
     .append('text')
     .style('font-weight', 'bold')
-    .text( d.Count + ' lines')
+    .text(`${d.Count} lines`)
 
   return tooltip.node().innerHTML
 }
