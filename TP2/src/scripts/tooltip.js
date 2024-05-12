@@ -15,7 +15,9 @@ export function getContents (d) {
       + A bold label for the player's line count
         followed by the number of lines
   */
-  const tooltip = d3.create()
+
+  /* global d3 */ 
+  const tooltip = d3.create('div')
 
   tooltip.append('div')
     .append('text')
