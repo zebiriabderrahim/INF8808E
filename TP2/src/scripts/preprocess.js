@@ -87,6 +87,10 @@ export function summarizeLines (data) {
       }
     }
   })
+  
+  nestedData.forEach(obj => {
+    obj.Players.sort((a, b) => a.Player.localeCompare(b.Player))
+  })
   return nestedData
 }
 
@@ -111,7 +115,17 @@ export function replaceOthers (data, top) {
     const otherCount = other.reduce((acc, obj) => acc + obj.Count, 0)
     d.Players = players.filter(obj => top.includes(obj.Player))
     d.Players.push({ Player: 'Other', Count: otherCount })
-  }
-  )
+
+    top.forEach(player => {
+      if (!players.some(p => p.Player === player)) {
+        d.Players.push({ Player: player, Count: 0 }); // Add missing top player with 0 lines
+      }
+    });
+  })
+  
+  data.forEach(obj => {
+    obj.Players.sort((a, b) => a.Player.localeCompare(b.Player))
+  })
+
   return data
 }
