@@ -66,7 +66,7 @@ export function drawBars (y, xSubgroup, players, height, color, tip) {
         .attr('fill', d => color(d.Player))
         .attr('x', (_, i) => i * xSubgroup.bandwidth())
         .attr('y', d => height - y(max - d.Count))
-        .on('mouseover', (mouseEvent, data) => tip.show(data, mouseEvent.currentTarget))
+        .on('mouseover', (mouseEvent, d) => tip.show(d, mouseEvent.currentTarget))
         .on('mouseout', () => tip.hide());
     });
   }
