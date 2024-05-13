@@ -7,9 +7,7 @@
  */
 export function updateGroupXScale (scale, data, width) {
   // Set the domain and range of the graph's x scale
-  scale
-    .domain(data.map(d => d.Act))
-    .range([0, width])
+  scale.domain(data.map(d => d.Act)).range([0, width])
 }
 
 /**
@@ -21,9 +19,7 @@ export function updateGroupXScale (scale, data, width) {
  */
 export function updateYScale (scale, data, height) {
   // Set the domain and range of the graph's y scale
-  scale
-    .domain([0, d3.max(data, d => d3.max(d.Players, d => d.Count))])
-    .range([height, 0])
+  scale.domain([0, d3.max(data, d => d3.max(d.Players, d => d.Count))]).range([height, 0])
 }
 
 /**
@@ -57,20 +53,20 @@ export function createGroups (data, x) {
  * @param {*} tip The tooltip to show when each bar is hovered and hide when it's not
  */
 export function drawBars (y, xSubgroup, players, height, color, tip) {
-  const data = d3.select('#graph-g').selectAll('.subgroup').data()
-  const max = d3.max(data, d => d3.max(d.Players, d => d.Count))
-
-  data.forEach(function (actLines) {
-    d3.select('#graph-g').select('#subgroup' + actLines.Act).selectAll('rect')
-      .data(actLines.Players)
-      .enter().append('rect')
-      .attr('class', 'bar')
-      .attr('width', xSubgroup.bandwidth())
-      .attr('height', function (d) { return y(max - d.Count) })
-      .attr('fill', function (d) { return color(d.Player) })
-      .attr('x', function (d, i) { return (i * xSubgroup.bandwidth()) })
-      .attr('y', function (d) { return height - y(max - d.Count) })
-      .on('mouseover', function (mouseEvent, data) { tip.show(data, this) })
-      .on('mouseout', tip.hide)
-  })
-}
+    const data = d3.select('#graph-g').selectAll('.subgroup').data();
+    const max = d3.max(data, d => d3.max(d.Players, p => p.Count));
+  
+    data.forEach(actLines => {
+      d3.select('#graph-g').select(`#subgroup${actLines.Act}`).selectAll('rect')
+        .data(actLines.Players)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('width', xSubgroup.bandwidth())
+        .attr('height', d => y(max - d.Count))
+        .attr('fill', d => color(d.Player))
+        .attr('x', (_, i) => i * xSubgroup.bandwidth())
+        .attr('y', d => height - y(max - d.Count))
+        .on('mouseover', (mouseEvent, data) => tip.show(data, mouseEvent.currentTarget))
+        .on('mouseout', () => tip.hide());
+    });
+  }
