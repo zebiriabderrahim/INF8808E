@@ -9,13 +9,23 @@ export function draw (data, color) {
   // should have a width and height set to 15.
   // Tip : Append one div per legend element using class "legend-element".
   const legend = d3.select('.legend')
-  legend.selectAll('.legend-element').remove()
-  const legendElements = legend.selectAll('.legend-element').data(data)
-    .enter()
-    .append('div')
-    .attr('class', 'legend-element')
-    .style('display', 'flex')
-    .style('align-items', 'center')
-    .style('margin-right', '10px')
-  legendElements.append('svg')
+
+  data.forEach(player => {
+    const div = legend.append('div')
+      .attr('class', 'legend-element')
+      .style('display', 'flex')
+      .style('align-items', 'center')
+      .style('margin-right', '10px')
+
+    div.append('svg')
+      .attr('width', 15)
+      .attr('height', 15)
+      .append('rect')
+      .attr('width', 15)
+      .attr('height', 15)
+      .attr('fill', color(player))
+
+    div.append('p')
+      .text(player)
+  })
 }
