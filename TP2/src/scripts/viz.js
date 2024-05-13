@@ -19,7 +19,7 @@ export function updateGroupXScale (scale, data, width) {
  */
 export function updateYScale (scale, data, height) {
   // Set the domain and range of the graph's y scale
-  scale.domain([0, d3.max(data, d => d3.max(d.Players, d => d.Count))]).range([height, 0])
+  scale.domain([0, d3.max(data, d => d3.max(d.Players, p => p.Count))]).range([height, 0])
 }
 
 /**
