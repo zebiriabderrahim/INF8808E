@@ -17,21 +17,23 @@ export function getContents (d) {
   */
 
   /* global d3 */ 
-  const tooltip = d3.create('div')
+  const tooltip = d3.create()
 
   tooltip.append('div')
     .append('text')
-    .style('font-family', 'Grenze Gotisch')
     .style('font-size', '24px')
-    .style('font-weight', 'normal')
-    .style('margin-bottom', '10px')
-    .text(d.Player)
-
+    .style('font-family', 'Grenze Gotisch')
+    .style('font-weight', 'bold')
+    .text(d.target.__data__.Player)
+    .append('p')
 
   tooltip.append('div')
     .append('text')
-    .style('font-weight', 'bold')
-    .text(`${d.Count} lines`)
+    .style('font-weight', 'normal')
+    .text(d.target.__data__.Count)
+    .append('b')
+    .style('font-weight', 'normal')
+    .text(' lines')
 
-  return tooltip.node().innerHTML
+  return tooltip.html()
 }

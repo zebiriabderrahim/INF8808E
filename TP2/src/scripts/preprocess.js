@@ -105,7 +105,6 @@ export function replaceOthers (data, top) {
   // a line count corresponding to the sum of lines
 
   data.forEach(d => {
-    const act = d.Act
     const players = d.Players
     const other = players.filter(obj => !top.includes(obj.Player))
     const otherCount = other.reduce((acc, obj) => acc + obj.Count, 0)
