@@ -24,7 +24,9 @@ export function draw (data, color) {
       .attr('width', 15)
       .attr('height', 15)
       .attr('fill', color(player))
-
+      .attr('stroke', 'black')
+      .attr('stroke-width', 2)
+      
     div.append('p')
       .text(player)
   })
