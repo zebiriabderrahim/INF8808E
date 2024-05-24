@@ -35,7 +35,7 @@ export function filterYears (data, start, end) {
  */
 export function summarizeYearlyCounts (data) {
   const summarizedData = data.reduce((acc, item) => {
-    const year = new Date(item.Date_Plantation).getFullYear();
+    const year = new Date(item.Date_Plantation).getFullYear()
     const key = `${item.Arrond_Nom}-${year}`
     if (!acc[key]) {
       acc[key] = {
@@ -64,10 +64,10 @@ export function summarizeYearlyCounts (data) {
  * where the values for 'Counts' is 0
  */
 export function fillMissingData (data, neighborhoods, start, end, range) {
-  const result = []
+  const result = [...data]
   neighborhoods.forEach(neighborhood => {
     for (let year = start; year <= end; year++) {
-      const existingData = data.find(item => item.Arrond_Nom === neighborhood && item.Plantation_Year === year)
+      const existingData = result.find(item => item.Arrond_Nom === neighborhood && item.Plantation_Year === year)
       if (!existingData) {
         result.push({
           Arrond_Nom: neighborhood,
@@ -77,6 +77,6 @@ export function fillMissingData (data, neighborhoods, start, end, range) {
       }
     }
   })
-
+  console.table(result)
   return result
 }
