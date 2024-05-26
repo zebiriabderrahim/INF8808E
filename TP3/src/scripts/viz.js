@@ -19,9 +19,9 @@ export function appendRects (data) {
   // TODO : Append SVG rect elements
   data.forEach(d => {
     d3.select('#graph-g').append('g')
-    .data([d])
-    .append('rect')
-    .attr('class', 'tile')
+      .data([d])
+      .append('rect')
+      .attr('class', 'tile')
   })
 }
 
@@ -35,7 +35,7 @@ export function appendRects (data) {
  */
 export function updateXScale (xScale, data, width, range) {
   // TODO : Update X scale
-  xScale.domain(range(d3.min(data, d => d.Plantation_Year), d3.max(data, d=> d.Plantation_Year))).range([0, width])
+  xScale.domain(range(d3.min(data, d => d.Plantation_Year), d3.max(data, d => d.Plantation_Year))).range([0, width])
 }
 
 /**
@@ -59,12 +59,11 @@ export function updateYScale (yScale, neighborhoodNames, height) {
 export function drawXAxis (xScale) {
   // TODO : Draw X axis
   d3.select('#graph-g')
-  .append('g')
-  .attr('class', 'x-axis')
-  .attr('transform', 'translate(0, 0)')
-  .call(d3.axisTop(xScale))
-  .select('.domain').remove()
-
+    .append('g')
+    .attr('class', 'x-axis')
+    .attr('transform', 'translate(0, 0)')
+    .call(d3.axisTop(xScale))
+    .select('.domain').remove()
 }
 
 /**
@@ -76,11 +75,11 @@ export function drawXAxis (xScale) {
 export function drawYAxis (yScale, width) {
   // TODO : Draw Y axis
   d3.select('#graph-g')
-  .append('g')
-  .attr('class', 'y-axis')
-  .attr('transform', `translate(${width}, 0)`)
-  .call(d3.axisRight(yScale))
-  .select('.domain').remove()
+    .append('g')
+    .attr('class', 'y-axis')
+    .attr('transform', `translate(${width}, 0)`)
+    .call(d3.axisRight(yScale))
+    .select('.domain').remove()
 }
 
 /**
@@ -102,10 +101,9 @@ export function rotateYTicks () {
 export function updateRects (xScale, yScale, colorScale) {
   // TODO : Set position, size and fill of rectangles according to bound data
   d3.select('#graph-g').selectAll('.tile')
-  .attr('x', d => xScale(d.Plantation_Year))
-  .attr('y', d => yScale(d.Arrond_Nom))
-  .attr('width', xScale.bandwidth())
-  .attr('height', yScale.bandwidth())
-  .attr('fill', d => colorScale(d.Counts))
-
+    .attr('x', d => xScale(d.Plantation_Year))
+    .attr('y', d => yScale(d.Arrond_Nom))
+    .attr('width', xScale.bandwidth())
+    .attr('height', yScale.bandwidth())
+    .attr('fill', d => colorScale(d.Counts))
 }
