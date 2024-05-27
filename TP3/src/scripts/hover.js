@@ -81,6 +81,8 @@ export function rectUnselected (element) {
   d3.select(element)
     .select('text')
     .remove()
+
+  d3.select(element)
     .select('rect')
     .transition()
     .style('opacity', 1)
