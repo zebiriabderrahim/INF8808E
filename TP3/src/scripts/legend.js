@@ -66,7 +66,7 @@ export function draw (x, y, height, width, fill, colorScale) {
     .range([height, 0])
     .domain(d3.extent(colorScale.domain()))
 
-  const yAxis = d3.axisLeft(yScale)
+  const yAxis = d3.axisLeft(yScale).ticks(5)
 
   const axisLegend = d3.selectAll('.legend.axis')
   axisLegend

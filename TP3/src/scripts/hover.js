@@ -60,6 +60,7 @@ export function rectSelected (element, xScale, yScale) {
     .attr('text-anchor', 'middle')
     .attr('font-family', 'sans-serif')
     .attr('font-weight', 'bold')
+    .attr('pointer-events', 'none')
     .attr('fill', treeCount >= 1000 ? 'white' : 'black')
 
   rect.transition()
