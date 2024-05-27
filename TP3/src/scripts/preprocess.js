@@ -5,8 +5,12 @@
  * @returns {string[]} The names of the neighorhoods in the data set
  */
 export function getNeighborhoodNames (data) {
-  // TODO: Return the neihborhood names
-  return []
+  return data.reduce((acc, item) => {
+    if (!acc.includes(item.Arrond_Nom)) {
+      acc.push(item.Arrond_Nom)
+    }
+    return acc
+  }, [])
 }
 
 /**
@@ -18,8 +22,10 @@ export function getNeighborhoodNames (data) {
  * @returns {object[]} The filtered data
  */
 export function filterYears (data, start, end) {
-  // TODO : Filter the data by years
-  return []
+  return data.filter(item => {
+    const year = new Date(item.Date_Plantation).getFullYear()
+    return year >= start && year <= end
+  })
 }
 
 /**
@@ -30,8 +36,21 @@ export function filterYears (data, start, end) {
  * the name of the neighborhood, the year and the number of trees that were planted
  */
 export function summarizeYearlyCounts (data) {
-  // TODO : Construct the required data table
-  return []
+  return data.reduce((acc, item) => {
+    const existingData = acc.find(
+      element => element.Arrond_Nom === item.Arrond_Nom && element.Plantation_Year === new Date(item.Date_Plantation).getFullYear()
+    )
+    if (existingData) {
+      existingData.Counts++
+    } else {
+      acc.push({
+        Arrond_Nom: item.Arrond_Nom,
+        Plantation_Year: new Date(item.Date_Plantation).getFullYear(),
+        Counts: 1
+      })
+    }
+    return acc
+  }, [])
 }
 
 /**
@@ -47,6 +66,21 @@ export function summarizeYearlyCounts (data) {
  * where the values for 'Counts' is 0
  */
 export function fillMissingData (data, neighborhoods, start, end, range) {
-  // TODO : Find missing data and fill with 0
-  return []
+  const allYears = range(start, end)
+  const allData = []
+  for (const neighborhood of neighborhoods) {
+    for (const year of allYears) {
+      const existingData = data.find(item => item.Arrond_Nom === neighborhood && item.Plantation_Year === year)
+      if (existingData) {
+        allData.push(existingData)
+      } else {
+        allData.push({
+          Arrond_Nom: neighborhood,
+          Plantation_Year: year,
+          Counts: 0
+        })
+      }
+    }
+  }
+  return allData
 }
