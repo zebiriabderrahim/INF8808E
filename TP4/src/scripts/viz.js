@@ -1,4 +1,3 @@
-import { getContents } from './tooltip'
 /**
  * Positions the x axis label and y axis label.
  *
