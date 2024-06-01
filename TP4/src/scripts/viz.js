@@ -1,5 +1,4 @@
 import { getContents } from './tooltip'
-
 /**
  * Positions the x axis label and y axis label.
  *
@@ -30,21 +29,16 @@ export function drawCircles (data, rScale, colorScale) {
   // and each circle's color depends on its continent.
   // The fill opacity of each circle is 70%
   // The outline of the circles is white
-  const circles = d3.select('#graph-g')
-    .append('g')
-    .attr('id', 'circles')
+  d3.select('#graph-g').append('g').attr('id', 'circles')
+
+  d3.select('#circles')
     .selectAll('circle')
     .data(data)
-
-  circles.enter()
-    .append('circle')
-    .merge(circles)
+    .join('circle')
     .attr('r', d => rScale(d.Population))
     .attr('fill', d => colorScale(d.Continent))
     .style('opacity', 0.7)
     .attr('stroke', 'white')
-
-  circles.exit().remove()
 }
 
 /**
@@ -57,24 +51,14 @@ export function setCircleHoverHandler (tip) {
   // hover and the opacity goes up to 100% (from 70%)
   const circles = d3.select('#circles').selectAll('circle')
 
-  circles.on('mouseover', (event, data) => {
-    const circle = d3.select(data)._groups[0][0]
-    const content = getContents(circle)
-
+  circles.on('mouseover', (event, d) => {
+    tip.show(d, event.currentTarget)
     d3.select(event.currentTarget).style('opacity', 1)
-    tip.offsetX = event.offsetX
-    tip.offsetY = event.offsetY
-    tip.html(content)
-      .style('left', event.pageX + 'px')
-      .style('top', event.pageY + 'px')
-      .style('font-weight', 300)
-      .show(data, event.currentTarget)
   })
-
-  circles.on('mouseout', (event) => {
-    d3.select(event.currentTarget).style('opacity', 0.7)
-    tip.hide()
-  })
+    .on('mouseout', (event, d) => {
+      tip.hide()
+      d3.select(event.currentTarget).style('opacity', 0.7)
+    })
 }
 
 /**
@@ -89,8 +73,9 @@ export function moveCircles (xScale, yScale, transitionDuration) {
   // TODO : Set up the transition and place the circle centers
   // in x and y according to their GDP and CO2 respectively
 
-  d3.selectAll('#circles circle')
-    .transition()
+  const circles = d3.selectAll('#circles circle')
+
+  circles.transition()
     .duration(transitionDuration)
     .attr('cx', d => xScale(d.GDP))
     .attr('cy', d => yScale(d.CO2))
