@@ -10,7 +10,10 @@
  */
 export function setRadiusScale (data) {
   // TODO : Set scale
-  return {}
+  const populations = data['2000'].concat(data['2015']).map(d => d.Population)
+  return d3.scaleLinear()
+    .domain(d3.extent(populations))
+    .range([5, 20])
 }
 
 /**
@@ -25,7 +28,8 @@ export function setRadiusScale (data) {
  */
 export function setColorScale (data) {
   // TODO : Set scale
-  return {}
+  const continents = new Set(data['2000'].concat(data['2015']).map(country => country.Continent))
+  return d3.scaleOrdinal(d3.schemeSet1).domain(Array.from(continents))
 }
 
 /**
@@ -36,8 +40,10 @@ export function setColorScale (data) {
  * @returns {*} The linear scale in X
  */
 export function setXScale (width, data) {
-  // TODO : Set scale
-  return {}
+  const GDPs = data['2000'].concat(data['2015']).map(d => d.GDP)
+  return d3.scaleLog()
+    .domain(d3.extent(GDPs))
+    .range([0, width])
 }
 
 /**
@@ -49,5 +55,8 @@ export function setXScale (width, data) {
  */
 export function setYScale (height, data) {
   // TODO : Set scale
-  return {}
+  const CO2s = data['2000'].concat(data['2015']).map(d => d.CO2)
+  return d3.scaleLog()
+    .domain(d3.extent(CO2s))
+    .range([height, 0])
 }
