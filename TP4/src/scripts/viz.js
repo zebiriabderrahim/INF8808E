@@ -89,5 +89,5 @@ export function setTitleText (year) {
   // TODO : Set the title
   d3.select('#graph-g')
     .selectAll('.title')
-    .text(`Data for year: ${year}`)
+    .text(`Data for year : ${year}`)
 }
