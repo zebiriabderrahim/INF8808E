@@ -14,9 +14,8 @@ export function drawLegend (colorScale, g, width) {
 
   const legend = d3Legend.legendColor()
     .title('Legend')
-    .titleWidth(100)
     .shape('path', d3.symbol().type(d3.symbolCircle).size(300)())
-    .shapePadding(5)
+    .shapePadding(3)
     .scale(colorScale)
 
   g.append('g')
