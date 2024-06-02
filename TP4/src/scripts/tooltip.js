@@ -20,8 +20,8 @@ export function getContents (d) {
   const data = [
     createDataItem('Country : ', d['Country Name']),
     createDataItem('Population : ', d.Population),
-    createDataItem('GDP : ', formatNumber(d.GDP) + ' $ (USD)'),
-    createDataItem('CO2 emissions : ', formatNumber(d.CO2) + ' metric tonnes')
+    createDataItem('GDP : ', `${formatNumber(d.GDP)} $ (USD)`),
+    createDataItem('CO2 emissions : ', `${formatNumber(d.CO2)} metric tonnes`)
   ]
 
   const createContent = (data) => {
