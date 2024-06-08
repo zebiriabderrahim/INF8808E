@@ -56,6 +56,11 @@ export function display (d, color) {
  */
 function setTitle (g, d, color) {
   // TODO : Set the title
+  const title = d.properties.NOM_PROJET
+  const titleColor = color(d.properties.TYPE_SITE_INTERVENTION)
+
+  g.text(title)
+    .style('color', titleColor)
 }
 
 /**
@@ -66,6 +71,8 @@ function setTitle (g, d, color) {
  */
 function setMode (g, d) {
   // TODO : Set the mode
+  const mode = d.properties.MODE
+  g.text(mode)
 }
 
 /**
@@ -77,4 +84,5 @@ function setMode (g, d) {
  */
 function setTheme (g, d) {
   // TODO : Append a list element representing the given theme
+  g.append('li').text(d)
 }
