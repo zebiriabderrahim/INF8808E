@@ -1,3 +1,5 @@
+import rewind from '@turf/rewind'
+
 const TITLES = {
   '1. Noyau villageois': 'Noyau villageois',
   '2. Rue commerciale de quartier, d’ambiance ou de destination': 'Rue commerciale de quartier, d’ambiance ou de destination',
@@ -30,6 +32,13 @@ export function convertCoordinates (data, projection) {
       y:...
     }
   */
+  data.features.forEach(feature => {
+    const [longitude, latitude] = feature.geometry.coordinates
+    const [x, y] = projection([longitude, latitude])
+
+    feature.x = x
+    feature.y = y
+  })
 }
 
 /**
@@ -40,14 +49,30 @@ export function convertCoordinates (data, projection) {
  */
 export function simplifyDisplayTitles (data) {
   // TODO : Simplify the titles as required
+
+  data.features.forEach(feature => {
+    const featureType = feature.properties.TYPE_SITE_INTERVENTION
+    if (TITLES[featureType]) {
+      feature.properties.TYPE_SITE_INTERVENTION = TITLES[featureType]
+    }
+  })
+
+  // Sort the features based on simplified titles
+  data.features.sort((a, b) => {
+    const typeA = a.properties.TYPE_SITE_INTERVENTION
+    const typeB = b.properties.TYPE_SITE_INTERVENTION
+    return typeA.localeCompare(typeB)
+  })
 }
 
 /**
  * Reverses the coordinates in the GeoJson data using turf's rewind function.
  * See here : https://turfjs.org/docs/#rewind
+ *
  * @param {*} data The data to be displayed
  * @returns {*} The GeoJson data with reversed coordinates.
  */
- export function reverseGeoJsonCoordinates (data) {
+export function reverseGeoJsonCoordinates (data) {
   // TODO : Rewind the GeoJso data.
+  return rewind(data, { reverse: true })
 }
