@@ -6,8 +6,8 @@
  */
 export function colorDomain (color, data) {
   // Set the color domain
-  const types = Array.from(new Set(data.features.map(feature => feature.properties.TYPE_SITE_INTERVENTION)))
-  color.domain(types)
+  const features = data.features.map((f) => f.properties.TYPE_SITE_INTERVENTION).sort()
+  color.domain(features)
 }
 
 /**
@@ -18,25 +18,17 @@ export function colorDomain (color, data) {
  * @param {Function} showMapLabel The function to call when a neighborhood is hovered
  */
 export function mapBackground (data, path, showMapLabel) {
-  // TODO : Generate the map background and set the hover handlers
-  const regions = d3.select('#map-g')
-    .selectAll('.region')
+  // TODO : Generate the map background and set the hover
+  d3.select('#map-g')
+    .selectAll('path')
     .data(data.features)
-
-  const regionsEnter = regions.enter()
-    .append('g')
-    .attr('class', 'region')
-
-  regionsEnter.append('path')
-    .attr('d', path)
+    .enter()
+    .append('path')
+    .attr('d', d => path(d))
     .attr('fill', '#fff')
-    .attr('stroke', '#a7a7a0')
+    .attr('stroke', '#333')
     .on('mouseover', (event, d) => showMapLabel(d, path))
-    .on('mouseout', () => {
-      d3.select('.main-svg').select('.mapLabel').remove()
-    })
-
-  regions.exit().remove()
+    .on('mouseout', () => d3.select('.map-label').remove())
 }
 
 /**
@@ -50,15 +42,15 @@ export function mapBackground (data, path, showMapLabel) {
 export function showMapLabel (d, path) {
   // TODO : Show the map label at the center of the neighborhood
   // by calculating the centroid for its polygon
-  const [x, y] = path.centroid(d)
-
-  d3.select('.main-svg')
+  const pos = path.centroid(d)
+  d3.select('#map-g')
     .append('text')
-    .attr('class', 'mapLabel')
-    .attr('x', x)
-    .attr('y', y)
+    .attr('class', 'map-label')
+    .attr('x', pos[0])
+    .attr('y', pos[1])
+    .attr('font-size', '12px')
     .attr('text-anchor', 'middle')
-    .style('font', '11px "Open Sans Condensed"')
+    .attr('font-family', 'Open Sans Condensed')
     .text(d.properties.NOM)
 }
 
@@ -77,26 +69,15 @@ export function mapMarkers (data, color, panel) {
   d3.select('#marker-g')
     .selectAll('.marker')
     .data(data.features)
-    .join(
-      enter => enter.append('circle')
-        .attr('class', 'marker')
-        .attr('r', 5)
-        .each(function (d) {
-          const [x, y] = d.geometry.coordinates
-          d3.select(this).attr('cx', x).attr('cy', y)
-        })
-        .attr('fill', d => color(d.properties.TYPE_SITE_INTERVENTION))
-        .on('mouseover', function () {
-          d3.select(this).attr('r', 6)
-        })
-        .on('mouseout', function () {
-          d3.select(this).attr('r', 5)
-        })
-        .on('click', function (event, d) {
-          panel.display(d, color)
-        }),
-      update => update
-        .attr('fill', d => color(d.properties.TYPE_SITE_INTERVENTION)),
-      exit => exit.remove()
-    )
+    .enter()
+    .append('circle')
+    .attr('class', 'marker')
+    .attr('cx', d => d.geometry.coordinates[0])
+    .attr('cy', d => d.geometry.coordinates[1])
+    .attr('fill', d => color(d.properties.TYPE_SITE_INTERVENTION))
+    .attr('stroke', '#fff')
+    .attr('r', '5')
+    .on('mouseover', (event, d) => d3.select(event.target).attr('r', '7'))
+    .on('mouseout', (event, d) => d3.select(event.target).attr('r', '5'))
+    .on('click', (event, d) => panel.display(d, color))
 }
