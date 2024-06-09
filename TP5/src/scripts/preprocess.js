@@ -32,9 +32,9 @@ export function convertCoordinates (data, projection) {
     }
   */
   data.features.forEach(feature => {
-    const coords = projection(feature.geometry.coordinates)
-    feature.x = coords[0]
-    feature.y = coords[1]
+    const [x, y] = projection(feature.geometry.coordinates)
+    feature.x = x
+    feature.y = y
   })
 }
 
