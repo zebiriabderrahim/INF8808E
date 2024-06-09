@@ -1,5 +1,4 @@
 import rewind from '@turf/rewind'
-
 const TITLES = {
   '1. Noyau villageois': 'Noyau villageois',
   '2. Rue commerciale de quartier, d’ambiance ou de destination': 'Rue commerciale de quartier, d’ambiance ou de destination',
@@ -33,11 +32,9 @@ export function convertCoordinates (data, projection) {
     }
   */
   data.features.forEach(feature => {
-    const [longitude, latitude] = feature.geometry.coordinates
-    const [x, y] = projection([longitude, latitude])
-
-    feature.x = x
-    feature.y = y
+    const coords = projection(feature.geometry.coordinates)
+    feature.x = coords[0]
+    feature.y = coords[1]
   })
 }
 
@@ -49,19 +46,8 @@ export function convertCoordinates (data, projection) {
  */
 export function simplifyDisplayTitles (data) {
   // TODO : Simplify the titles as required
-
   data.features.forEach(feature => {
-    const featureType = feature.properties.TYPE_SITE_INTERVENTION
-    if (TITLES[featureType]) {
-      feature.properties.TYPE_SITE_INTERVENTION = TITLES[featureType]
-    }
-  })
-
-  // Sort the features based on simplified titles
-  data.features.sort((a, b) => {
-    const typeA = a.properties.TYPE_SITE_INTERVENTION
-    const typeB = b.properties.TYPE_SITE_INTERVENTION
-    return typeA.localeCompare(typeB)
+    feature.properties.TYPE_SITE_INTERVENTION = TITLES[feature.properties.TYPE_SITE_INTERVENTION]
   })
 }
 

@@ -17,9 +17,6 @@ export function drawLegend (colorScale, g) {
     .title('Légende')
     .shape('circle')
     .scale(colorScale)
-    .shapePadding(5)
-    .labelOffset(5)
-    .titleWidth(100)
     .labelAlign('start')
     .orient('vertical')
 

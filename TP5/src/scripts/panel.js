@@ -71,7 +71,7 @@ function setTitle (g, d, color) {
  */
 function setMode (g, d) {
   // TODO : Set the mode
-  const mode = d.properties.MODE
+  const mode = d.properties.MODE_IMPLANTATION
   g.text(mode)
 }
 
