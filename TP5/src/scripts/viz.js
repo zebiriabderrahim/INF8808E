@@ -26,7 +26,7 @@ export function mapBackground (data, path, showMapLabel) {
     .append('path')
     .attr('d', d => path(d))
     .attr('fill', '#fff')
-    .attr('stroke', '#333')
+    .attr('stroke', '#a7a7a0')
     .on('mouseover', (event, d) => showMapLabel(d, path))
     .on('mouseout', () => d3.select('.map-label').remove())
 }
