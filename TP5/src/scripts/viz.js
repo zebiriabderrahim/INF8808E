@@ -6,8 +6,7 @@
  */
 export function colorDomain (color, data) {
   // Set the color domain
-  const features = data.features.map((f) => f.properties.TYPE_SITE_INTERVENTION).sort()
-  color.domain(features)
+  color.domain(data.features.map((f) => f.properties.TYPE_SITE_INTERVENTION).sort())
 }
 
 /**
@@ -27,7 +26,7 @@ export function mapBackground (data, path, showMapLabel) {
     .attr('d', d => path(d))
     .attr('fill', '#fff')
     .attr('stroke', '#a7a7a0')
-    .on('mouseover', (event, d) => showMapLabel(d, path))
+    .on('mouseover', (_, d) => showMapLabel(d, path))
     .on('mouseout', () => d3.select('.map-label').remove())
 }
 
@@ -69,15 +68,14 @@ export function mapMarkers (data, color, panel) {
   d3.select('#marker-g')
     .selectAll('.marker')
     .data(data.features)
-    .enter()
-    .append('circle')
+    .join('circle')
     .attr('class', 'marker')
     .attr('cx', d => d.geometry.coordinates[0])
     .attr('cy', d => d.geometry.coordinates[1])
     .attr('fill', d => color(d.properties.TYPE_SITE_INTERVENTION))
     .attr('stroke', '#fff')
-    .attr('r', '5')
-    .on('mouseover', (event, d) => d3.select(event.target).attr('r', '7'))
-    .on('mouseout', (event, d) => d3.select(event.target).attr('r', '5'))
-    .on('click', (event, d) => panel.display(d, color))
+    .attr('r', 5)
+    .on('mouseover', event => d3.select(event.target).attr('r', 7))
+    .on('mouseout', event => d3.select(event.target).attr('r', 5))
+    .on('click', (_, d) => panel.display(d, color))
 }
