@@ -1,16 +1,16 @@
-import wpItaly from './assets/wp_italy.jpg'
-import './style.css'
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <h1>Vite + TypeScript</h1>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${wpItaly}" class="logo-italy" alt="TypeScript logo" />
-    </a>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+import * as d3 from 'd3';
+import { createVisu1 } from './scripts/visu1.ts';
+import './style.css';
+
+
+d3.csv('./src/assets/data/match_events.csv').then(match_events => {
+  d3.csv('./src/assets/data/match_information.csv').then(match_information => {
+    d3.csv('./src/assets/data/players_stats.csv').then(players_stats => {
+      d3.csv('./src/assets/data/match_stats.csv').then(match_stats => {
+        d3.csv('./src/assets/data/line_ups.csv').then(line_ups => {
+          createVisu1(match_events)
+        })
+      })
+    })
+  })
+})
