@@ -17,11 +17,6 @@ d3.dsv(";", "./src/assets/data/match_events.csv").then((match_events) => {
           d3.dsv(";", "./src/assets/data/match_stats.csv").then(
             (match_stats) => {
               d3.dsv(";", "./src/assets/data/line_ups.csv").then((line_ups) => {
-                console.log(match_events);
-                console.log(match_information);
-                console.log(players_stats);
-                console.log(match_stats);
-                console.log(line_ups);
                 create(
                   match_events,
                   match_information,
