@@ -24,7 +24,7 @@ export function createVisu1(ps: any, lu: any) {
     d3
       .rollup(
         ps,
-        (v: any) => v[0], // Pick the first occurrence
+        (v: any) => v[0],
         (d: any) => d.player,
       )
       .values(),
@@ -69,11 +69,12 @@ export function createVisu1(ps: any, lu: any) {
   const scaleX = d3
     .scaleBand()
     .domain(data.map((d: any) => d.country))
-    .range([0, width]);
+    .range([0, width])
+    .padding(0.1);
 
   const scaleY = d3
     .scaleLinear()
-    .domain([0, Math.max(data.map((d: any) => d.goals))])
+    .domain([0, Math.max(data.map((d: any) => d.avg))])
     .range([height, 0]);
 
   const div = d3.select("body").append("div").attr("class", "container");
@@ -83,33 +84,31 @@ export function createVisu1(ps: any, lu: any) {
     .attr("height", height)
     .attr("class", "svg1");
   const g = svg.append("g").attr("class", "graph1");
-  appendAxes(g);
+
+  appendAxes(g, scaleX, scaleY);
+
+  g.selectAll(".bar")
+    .data(data)
+    .enter()
+    .append("rect")
+    .attr("class", "bar")
+    .attr("x", (d: any) => scaleX(d.country) || 0)
+    .attr("y", (d: any) => scaleY(d.avg))
+    .attr("width", scaleX.bandwidth())
+    .attr("height", (d: any) => height - scaleY(d.avg))
+    .attr("fill", "steelblue");
 }
 
-function appendAxes(g: any) {
+function appendAxes(g: any, scaleX: any, scaleY: any) {
   g.append("g")
     .attr("class", "x axis")
-    .append("text")
-    .text("")
-    .attr("class", "x axis-text")
-    .attr("font-size", 12);
+    .attr("transform", `translate(0, ${height - 50})`)
+    .call(d3.axisBottom(scaleX).tickSizeOuter(0).tickArguments([5, "~s"]))
+    .selectAll("text")
+    .attr("transform", "translate(0, 70) rotate(-70)")
+    .style("text-anchor", "start");
+
   g.append("g")
     .attr("class", "y axis")
-    .append("text")
-    .text("")
-    .attr("class", "y axis-text")
-    .attr("transform", "rotate(-90)")
-    .attr("font-size", 12);
-}
-
-function drawXAxis(g: any, xScale: any, height: any) {
-  g.select(".x.axis")
-    .attr("transform", "translate( 0, " + height + ")")
-    .call(d3.axisBottom(xScale).tickSizeOuter(0).tickArguments([5, "~s"]));
-}
-
-function drawYAxis(g: any, yScale: any) {
-  g.select(".y.axis").call(
-    d3.axisLeft(yScale).tickSizeOuter(0).tickArguments([5, ".0r"]),
-  );
+    .call(d3.axisLeft(scaleY).tickSizeOuter(0).tickArguments([5, "~s"]));
 }
