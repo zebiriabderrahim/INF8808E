@@ -24,7 +24,7 @@ export function show (event, data) {
     .html(contents)
     .style('left', event.pageX + 'px')
     .style('top', event.pageY + 'px')
-    .style('opacity', 1)
+    .style('opacity', 0.8)
 }
 
 /**
@@ -54,23 +54,17 @@ export function update (event) {
  * @returns {string} - The tooltip contents HTML.
  */
 export function getContents (data) {
-  const team = data.data.Équipe
-  const scoreDifference = data[1] - data[0]
-  let resultType = ''
-
-  if (data[0] === 0) {
-    resultType = data[1] === 1 ? 'Victoire' : 'Victoires'
-  } else if (data[1] === 7) {
-    resultType = scoreDifference === 1 ? 'Défaite' : 'Défaites'
-  } else {
-    resultType = scoreDifference === 1 ? 'Match nul' : 'Matchs nuls'
+  const keyMap = {
+    WINS: 'Win',
+    LOSSES: 'Loss',
+    DRAWS: 'Draw'
   }
-
+  const resultType = keyMap[data.data.key]
   const contents = `
-    <div id="tooltip-title">${team}</div>
+    <div id="tooltip-title">${resultType}</div>
     <p></p>
     <div class="tooltip-value">
-      <div>${scoreDifference} ${resultType}</div>
+      <div>${data.data.value} ${resultType}(s)</div>
     </div>
   `
   return contents
