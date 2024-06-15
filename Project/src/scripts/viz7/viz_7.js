@@ -16,13 +16,12 @@ export function updateXScale (scale, data, width) {
  * @param data
  * @param height
  */
-export function updateYScale(scale, data, height) {
-  const joueurs = data.map(d => d.Joueur);
-  scale.domain(joueurs)
+export function updateYScale (scale, data, height) {
+  const teams = data.map(d => d.TeamName)
+  scale.domain(teams)
     .range([0, height])
-    .padding([0.2]);
+    .padding([0.2])
 }
-
 
 /**
  * @param data
@@ -30,34 +29,39 @@ export function updateYScale(scale, data, height) {
  * @param x
  * @param y
  * @param svg
+ * @param width
+ * @param height
+ * @param margin
  */
-export function drawBars (data, color, x, y, svg,width,height,margin) {
+export function drawBars (data, color, x, y, svg, width, height, margin) {
   const subgroups = data.columns.slice(1)
   const stackedData = d3.stack().keys(subgroups)(data)
 
-  svg.append('g')
+  const groups = svg.append('g')
     .selectAll('g')
     .data(stackedData)
     .enter().append('g')
-    .attr('fill', function (d) { return color(d.key) })
-    .selectAll('rect')
-    .data(function (d) { return d })
-    .enter()
-    .append('rect')
-    .attr('y', function (d) { return y(d.data.Joueur) })
-    .attr('x', function (d) { return x(d[0]) })
+    .attr('fill', d => color.default)
+
+  groups.selectAll('rect')
+    .data(d => d)
+    .enter().append('rect')
+    .attr('y', d => y(d.data.TeamName))
+    .attr('x', d => x(d[0]))
     .attr('height', y.bandwidth())
-    .attr('width', function (d) { return x(d[1]) - x(d[0]) })
+    .attr('width', d => x(d[1]) - x(d[0]))
+    .attr('fill', d => d.data.TeamName === 'Italy' ? color.Italy : color.default)
     .on('mouseover', tip.tooltip.show)
     .on('mouseout', tip.tooltip.hide)
 
-    svg.append('text')
+  svg.append('text')
     .attr('class', 'x-axis-label')
     .attr('text-anchor', 'middle')
-    .attr('x', width / 2)
-    .attr('y', height + margin.bottom-10)
-    .text('Tirs et buts')
-  
+    .attr('x', (width / 2) - 10)
+    .attr('y', height + margin.bottom - 10)
+    .style('font-weight', 'bold')
+    .text('Pass Accuracy (%)')
+
   svg.append('text')
     .attr('class', 'y-axis-label')
     .attr('text-anchor', 'middle')
@@ -65,7 +69,8 @@ export function drawBars (data, color, x, y, svg,width,height,margin) {
     .attr('y', -margin.left + 10)
     .attr('dy', '1em')
     .attr('transform', 'rotate(-90)')
-    .text('Joueurs')
+    .style('font-weight', 'bold')
+    .text('Team Names')
 
   svg.call(tip.tooltip)
 }
