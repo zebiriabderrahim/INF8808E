@@ -1,7 +1,10 @@
+/**
+ *
+ */
 export function drawLegend () {
   const legendData = [
-    { label: 'Buts', color: '#3c906c' },
-    { label: 'Tirs', color: '#c72527' }
+    { label: 'Italy', color: '#FFFF00' },
+    { label: 'Other Teams', color: '#87ceeb' }
   ]
 
   const svg = d3.select('.viz7-svg')
@@ -14,7 +17,7 @@ export function drawLegend () {
     .append('g')
     .attr('class', 'legend')
     .attr('transform', function (d, i) {
-      return 'translate(' + (275 + (i * 150)) + ', 0)'
+      return 'translate(' + (325 + (i * 150)) + ', 0)'
     })
 
   legend.append('rect')
@@ -27,9 +30,10 @@ export function drawLegend () {
     })
 
   legend.append('text')
-    .attr('x', 40)
+    .attr('x', 35)
     .attr('y', 19)
     .attr('dy', '.35em')
+    .style('font-weight', 'bold')
     .text(function (d) {
       return d.label
     })

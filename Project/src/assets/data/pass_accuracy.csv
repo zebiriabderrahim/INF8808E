@@ -1,25 +1,25 @@
-TeamName,PassesCompleted,PassesAttempted
-Austria,1881,2305
-Belgium,2575,2949
-Croatia,1719,2000
-Czech Republic,1651,2131
-Denmark,2106,2541
-England,3325,3827
-Finland,576,752
-France,2133,2391
-Germany,2340,2622
-Hungary,720,926
-Italy,3750,4286
-Netherlands,1849,2216
-North Macedonia,970,1212
-Poland,1018,1299
-Portugal,2054,2325
-Russia,347,444
-Scotland,941,1184
-Slovakia,1191,1403
-Spain,4690,5240
-Sweden,1172,1522
-Switzerland,2139,2509
-Turkey,1187,1409
-Ukraine,2385,2749
-Wales,1036,1299
+TeamName,PassAccuracy
+Spain,89.33333333333333
+Germany,89.25
+France,88.75
+Portugal,88.5
+Belgium,87.0
+Italy,86.85714285714286
+Ukraine,86.6
+England,86.28571428571429
+Croatia,85.25
+Switzerland,84.6
+Slovakia,84.33333333333333
+Turkey,83.66666666666667
+Netherlands,82.5
+Denmark,82.4
+Austria,81.5
+Russia,80.5
+North Macedonia,79.66666666666667
+Scotland,79.66666666666667
+Wales,79.25
+Czech Republic,77.4
+Hungary,77.33333333333333
+Poland,75.66666666666667
+Finland,73.33333333333333
+Sweden,71.0
