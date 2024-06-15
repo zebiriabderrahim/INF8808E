@@ -25,7 +25,7 @@ const flagMap = {
 /**
  * @param data
  */
-function convertData(data) {
+function convertData (data) {
   data.forEach(function (d) {
     d.WINS = +d.WINS
     d.LOSSES = +d.LOSSES
@@ -37,9 +37,9 @@ function convertData(data) {
  * Add the legend to the main SVG container.
  *
  * @param {object} svg - The main SVG container to add the legend to.
- * @param {function} colorScale - The color scale used for the chart.
+ * @param {Function} colorScale - The color scale used for the chart.
  */
-function addLegend(svg, colorScale) {
+function addLegend (svg, colorScale) {
   const legend = svg.append('g')
     .attr('class', 'legend')
     .attr('transform', `translate(${width * 3 + margin.right}, ${margin.top})`)
@@ -74,7 +74,7 @@ function addLegend(svg, colorScale) {
  * @param data
  * @param team
  */
-function createDonutChart(svg, data, team) {
+function createDonutChart (svg, data, team) {
   const pie = d3.pie()
     .value(d => d.value)
 
@@ -101,7 +101,7 @@ function createDonutChart(svg, data, team) {
     chartGroup.append('circle')
       .attr('r', radius * 0.9)
       .attr('fill', '#d3d3d3')
-      .attr('transform', `translate(0, 0)`);
+      .attr('transform', 'translate(0, 0)')
   }
 
   chartGroup.selectAll('path')
@@ -112,19 +112,19 @@ function createDonutChart(svg, data, team) {
     .attr('fill', d => color(d.data.key))
     .attr('stroke', 'white')
     .attr('stroke-width', '3px')
-    .on('mouseover', function(event, d) {
+    .on('mouseover', function (event, d) {
       d3.select(this)
         .transition()
         .duration(200)
-        .attr('d', arcHover);
-      tip.show(event, d);
+        .attr('d', arcHover)
+      tip.show(event, d)
     })
-    .on('mouseout', function(event, d) {
+    .on('mouseout', function (event, d) {
       d3.select(this)
         .transition()
         .duration(200)
-        .attr('d', arc);
-      tip.hide();
+        .attr('d', arc)
+      tip.hide()
     })
     .on('mousemove', (event) => {
       tip.update(event)
@@ -133,7 +133,7 @@ function createDonutChart(svg, data, team) {
   // Add team label
   chartGroup.append('text')
     .attr('text-anchor', 'middle')
-    .attr('y', -radius - 10)
+    .attr('y', -radius)
     .attr('x', 0)
     .text(team)
     .attr('fill', '#000')
@@ -142,8 +142,8 @@ function createDonutChart(svg, data, team) {
   // Add flag image
   chartGroup.append('image')
     .attr('xlink:href', flagMap[team])
-    .attr('x', -70) // Adjust position as needed to place flag to the left
-    .attr('y', -radius - 30) // Adjust position as needed
+    .attr('x', -80) // Adjust position as needed to place flag to the left
+    .attr('y', -radius - 20) // Adjust position as needed
     .attr('width', 40)
     .attr('height', 40)
 
@@ -156,7 +156,7 @@ function createDonutChart(svg, data, team) {
       .attr('fill', 'gold')
       .style('font-size', '14px')
       .style('font-weight', 'bold')
-      .text('Winner of EURO 2020');
+      .text('Winner of EURO 2020')
   }
 }
 
@@ -164,7 +164,7 @@ function createDonutChart(svg, data, team) {
  * @param svg
  * @param data
  */
-export function createGraphs(svg, data) {
+export function createGraphs (svg, data) {
   convertData(data)
 
   const teams = data.map(d => d.TEAM)
