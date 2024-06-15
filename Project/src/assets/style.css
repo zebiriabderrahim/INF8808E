@@ -194,7 +194,7 @@ main {
 }
 
 .header {
-    background-image: linear-gradient(to bottom, transparent 30%, white), url('./images/morocco.jpg');
+    background-image: linear-gradient(to bottom, transparent 30%, white), url('./images/im2.png');
     background-size: cover;
     background-position: center;
     position: relative;
