@@ -5,7 +5,5 @@ export const tooltip = d3Tip().attr('class', 'd3-tip').html(function (d) {
 })
 
 function getContent (d) {
-  return d.target.parentNode.getAttribute('fill') === '#d7b442'
-    ? `${d.target.__data__.data.Equipe} - ${d.target.__data__.data.CJ} Cartons jaunes`
-    : `${d.target.__data__.data.Equipe} - ${d.target.__data__.data.CR} Carton rouge`;
+  return `${d.Team}: ${d.AverageGoalsPerPlayerByTeam.toFixed(2)} Goals per Player`
 }

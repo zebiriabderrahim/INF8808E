@@ -5,46 +5,48 @@ import * as helper from './helper'
 import * as legend from './legend'
 
 /**
- * @file This file is the entry-point for the the code of the performance heatmap.
+ * @file This file is the entry-point for the code of the performance heatmap.
  */
 export function build () {
   (function (d3) {
-    const margin = { top: 35, right: 100, bottom: 35, left: 50 }
-    const width = 700
-    const height = 550
+    const margin = { top: 50, right: 50, bottom: 100, left: 150 }
+    const width = 1000
+    const height = 600
 
-    const barColors = [
-      '#d7b442',
-      '#c72527'
-    ]
+    const barColors = {
+      'Italy': '#FFFF00',
+      'default': '#87ceeb'
+    }
 
-    const xScale = d3.scaleBand()
+    const xScale = d3.scaleBand().padding(0.2)
     const yScale = d3.scaleLinear()
 
-    // SVG
     const svg = helper.generateSVG(width, height, margin)
 
-    d3.csv('./Cartons.csv').then(function (data) {
-      const subgroups = data.columns.slice(1)
+    d3.csv('./average_goals_per_player_by_team.csv').then(function (data) {
+      data.forEach(d => {
+        d.AverageGoalsPerPlayerByTeam = +d.AverageGoalsPerPlayerByTeam
+      })
 
-      viz.updateXScale(xScale, data, width)
+      viz.updateXScale(xScale, data, width - margin.left - margin.right)
       viz.updateYScale(yScale, data, height)
 
       svg.append('g')
-        .attr('height', 20)
         .attr('transform', 'translate(0,' + height + ')')
-        .call(d3.axisBottom(xScale).tickSizeOuter(10))
+        .call(d3.axisBottom(xScale).tickSizeOuter(0))
+        .selectAll('text')
+        .style('font-style', 'italic')
+        .attr('transform', 'rotate(-45)')
+        .style('text-anchor', 'end')
+        .attr('dx', '-0.8em')
+        .attr('dy', '0.15em')
 
       svg.append('g')
         .call(d3.axisLeft(yScale).ticks(5))
 
-      const color = d3.scaleOrdinal()
-        .domain(subgroups)
-        .range(barColors)
+      viz.drawBars(data, barColors, xScale, yScale, svg, width, height, margin)
 
-      viz.drawBars(data, color, xScale, yScale, svg,width-10,height,margin)
+      legend.drawLegend()
     })
-
-    legend.drawLegend()
   })(d3)
 }

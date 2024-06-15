@@ -3,21 +3,25 @@
  */
 export function drawLegend () {
   const legendData = [
-    { label: 'Carton rouge', color: '#c72527' },
-    { label: 'Carton jaune', color: '#d7b442' }
+    { label: 'Italy', color: '#FFFF00' },
+    { label: 'Other Teams', color: '#87ceeb' }
   ]
 
   const svg = d3.select('.viz3-svg')
+  const legendContainerWidth = 300
+  const svgWidth = +svg.attr('width')
+  const legendStartX = (svgWidth - legendContainerWidth) / 2
 
   const legend = svg.append('g')
     .attr('class', 'legend-container')
+    .attr('transform', `translate(${legendStartX}, 0)`)
     .selectAll('.legend')
     .data(legendData)
     .enter()
     .append('g')
     .attr('class', 'legend')
     .attr('transform', function (d, i) {
-      return 'translate(' + (275 + (i * 150)) + ', 0)'
+      return 'translate(' + (i * 150) + ', 0)'
     })
 
   legend.append('rect')
