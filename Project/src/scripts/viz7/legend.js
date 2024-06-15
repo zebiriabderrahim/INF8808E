@@ -3,8 +3,8 @@
  */
 export function drawLegend () {
   const legendData = [
-    { label: 'Italy', color: '#FFFF00' },
-    { label: 'Other Teams', color: '#87ceeb' }
+    { label: 'Italy', color: '#dd5524' },
+    { label: 'Other Teams', color: '#008eaa' }
   ]
 
   const svg = d3.select('.viz7-svg')
