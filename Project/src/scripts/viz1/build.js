@@ -11,8 +11,8 @@ export function build () {
     .attr('width', width)
     .attr('height', height)
 
-  d3.csv('./Résultats.csv')
+  d3.csv('./Win_Loss_Draw_Ratio_of_Finalist_Teams.csv')
     .then(function (data) {
-      viz.createGraph(svg, data)
+      viz.createGraphs(svg, data)
     })
 }
