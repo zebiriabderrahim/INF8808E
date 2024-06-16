@@ -1,114 +1,110 @@
+import * as tip from './tooltip'
 
 /**
- * Sets the domain of the color scale
- *
- * @param {*} colorScale The color scale used in the heatmap
- * @param {object[]} data The data to be displayed
+ * @param scale
+ * @param data
+ * @param width
  */
-export function setColorScaleDomain (colorScale) {
-  colorScale.domain([0, 100])
+export function updateXScale (scale, data, width) {
+  const max = d3.max(data, d => d3.sum(Object.values(d).slice(1)))
+  scale.domain([0, max])
+    .range([0, width])
 }
 
 /**
- * For each data element, appends a group 'g' to which an SVG rect is appended
- *
- * @param {object[]} data The data to use for binding
- * @param xScale The scale for the x axis
- * @param yScale The scale for the y axis
- * @param colorScale The color scale used to set the rectangles' colors
+ * @param scale
+ * @param data
+ * @param height
  */
-export function appendRects (data, xScale, yScale, colorScale) {
-  const svg = d3.select('#graph-g')
-  const groups = svg.selectAll('g:not(.x):not(.y)')
+export function updateYScale (scale, data, height) {
+  const teams = data.map(d => d.TeamName)
+  scale.domain(teams)
+    .range([0, height])
+    .padding([0.2])
+}
+
+/** Draw the box and whisker plot
+ * @param data
+ * @param color
+ * @param x
+ * @param y
+ * @param svg
+ * @param width
+ * @param height
+ * @param margin
+ */
+export function drawBoxes (data, color, x, y, svg, width, height, margin) {
+  // Draw the box and whisker plot
+  const boxWidth = 10;
+
+  // Create a group for each data point
+  const groups = svg.selectAll(".box")
     .data(data)
     .enter()
-    .append('g')
+    .append("g")
+    .attr("class", "box")
+    .attr("transform", d => `translate(0, ${y(d.TeamName)})`);
 
-  groups.each(function (d) {
-    const group = d3.select(this)
-    const metrics = Object.keys(data[0]).filter(key => key !== 'Adversaire')
-    metrics.forEach(m => {
-      group
-        .append('rect')
-        .attr('class', `${m}-rect`)
-        .attr('x', xScale(m))
-        .attr('y', yScale(d.Adversaire))
-        .attr('width', xScale.bandwidth())
-        .attr('height', yScale.bandwidth())
-        .style('fill', colorScale(d[m]))
-    })
-  })
-}
+  // Draw the box
+  groups.append("rect")
+    .attr("x", d => x(d3.quantile(d.BallPossession, 0.25)))
+    .attr("y", -boxWidth / 2)
+    .attr("width", d => x(d3.quantile(d.BallPossession, 0.75)) - x(d3.quantile(d.BallPossession, 0.25)))
+    .attr("height", boxWidth)
+    .attr("fill", d => d.TeamName === 'Italy' ? color.Italy : color.default);
 
-/**
- * Updates the domain and range of the scale for the x axis
- *
- * @param {*} xScale The scale for the x axis
- * @param {object[]} data The data to be used
- * @param {number} width The width of the diagram
- */
-export function updateXScale (xScale, data, width) {
-  const domain = Object.keys(data[0]).filter(key => key !== 'Adversaire')
-  xScale.domain(domain).range([0, width])
-}
+  // Draw the median line
+  groups.append("line")
+    .attr("x1", d => x(d3.median(d.BallPossession)))
+    .attr("y1", -boxWidth / 2)
+    .attr("x2", d => x(d3.median(d.BallPossession)))
+    .attr("y2", boxWidth / 2)
+    .attr("stroke", "red");
 
-/**
- * Updates the domain and range of the scale for the y axis
- *
- * @param {*} yScale The scale for the y axis
- * @param {string[]} opponents The opponents of Morocco
- * @param {number} height The height of the diagram
- */
-export function updateYScale (yScale, opponents, height) {
-  yScale.domain(opponents).range([0, height])
-}
+  // Draw the whiskers
+  groups.append("line")
+    .attr("x1", d => x(d3.min(d.BallPossession)))
+    .attr("y1", 0)
+    .attr("x2", d => x(d3.quantile(d.BallPossession, 0.25)))
+    .attr("y2", 0)
+    .attr("stroke", d => d.TeamName === 'Italy' ? color.Italy : color.default);
 
-/**
- *  Draws the X axis at the top of the diagram.
- *
- *  @param {*} xScale The scale to use to draw the axis
- */
-export function drawXAxis (xScale) {
-  const axix = d3.select('.x')
-  axix.style('font-size', '11px').call(d3.axisTop(xScale))
-}
+  groups.append("line")
+    .attr("x1", d => x(d3.max(d.BallPossession)))
+    .attr("y1", 0)
+    .attr("x2", d => x(d3.quantile(d.BallPossession, 0.75)))
+    .attr("y2", 0)
+    .attr("stroke", d => d.TeamName === 'Italy' ? color.Italy : color.default);
 
-/**
- * Draws the Y axis to the right of the diagram.
- *
- * @param {*} yScale The scale to use to draw the axis
- * @param {number} width The width of the graphic
- */
-export function drawYAxis (yScale, width) {
-  // TODO : Draw Y axis
-  const axix = d3.select('.y')
-  axix.attr('transform', 'translate(' + width + ', 0)')
-    .style('font-size', '11px')
-    .call(d3.axisRight(yScale))
-}
+  // Draw the outliers
+  groups.selectAll(".outlier")
+    .data(d => d.BallPossession.filter(v => v < d3.min(d.BallPossession) || v > d3.max(d.BallPossession)))
+    .enter()
+    .append("circle")
+    .attr("class", "outlier")
+    .attr("cx", d => x(d))
+    .attr("cy", 0)
+    .attr("r", 3)
+    .attr("fill", "black");
 
-/**
- * After the rectangles have been appended, this function dictates their position, size and fill color.
- *
- * @param {*} xScale The x scale used to position the rectangles
- * @param {*} yScale The y scale used to position the rectangles
- * @param {object[]} data The data to be used
- * @param {*} colorScale The color scale used to set the rectangles' colors
- */
-export function updateRects (xScale, yScale, data, colorScale) {
-  const metrics = Object.keys(data[0]).filter(key => key !== 'Adversaire')
-  const graph = d3.select('#graph-g')
-  const rectangles = graph.selectAll('rect').filter(function () { return metrics.includes(d3.select(this).attr('class').split('-')[0]) })
+  svg.append('text')
+    .attr('class', 'x-axis-label')
+    .attr('text-anchor', 'middle')
+    .attr('x', (width / 2) - 10)
+    .attr('y', height + margin.bottom - 10)
+    .style('font-weight', 'bold')
+    .text('Ball Possession (%)')
 
-  rectangles.each(function (d) {
-    const rect = d3.select(this)
-    const metric = rect.attr('class').split('-')[0]
+  svg.append('text')
+    .attr('class', 'y-axis-label')
+    .attr('text-anchor', 'middle')
+    .attr('x', -height / 2)
+    .attr('y', -margin.left + 10)
+    .attr('dy', '1em')
+    .attr('transform', 'rotate(-90)')
+    .style('font-weight', 'bold')
+    .text('Team Names')
 
-    rect
-      .attr('x', xScale(metric))
-      .attr('y', yScale(d.Adversaire))
-      .attr('width', xScale.bandwidth())
-      .attr('height', yScale.bandwidth())
-      .style('fill', colorScale(d[metric]))
-  })
+    
+  svg.call(tip.tooltip)
 }
