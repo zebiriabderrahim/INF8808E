@@ -1,8 +1,8 @@
 body {
-    font-family: 'Montserrat', 'sans-serif';
+    font-family: "Montserrat", "sans-serif";
     font-size: 16px;
     background-color: #fff;
-    color: #2A2B2E;
+    color: #2a2b2e;
     margin: 0;
     height: 100vh;
     display: flex;
@@ -38,7 +38,7 @@ main {
 }
 
 .axis text {
-    font-family: 'Roboto';
+    font-family: "Roboto";
     cursor: default;
 }
 
@@ -112,21 +112,21 @@ main {
 }
 
 :root {
-    --blue: #43A1D5;
-    --gold: #D5B048;
-    --navy_blue: #173E69;
+    --blue: #43a1d5;
+    --gold: #d5b048;
+    --navy_blue: #173e69;
 
-    --light_blue: #AEDDF8;
-    --light_gold: #F3DFA5;
-    --light_navy_blue: #3772B4;
+    --light_blue: #aeddf8;
+    --light_gold: #f3dfa5;
+    --light_navy_blue: #3772b4;
 
-    --background: #FFFFFF;
+    --background: #ffffff;
     --onBackground: #000000;
 }
 
 .welcome-title {
     color: var(--navy_blue);
-    font-family: 'Roboto Slab';
+    font-family: "Roboto Slab";
     margin-top: 74vh;
     font-size: 50px;
 }
@@ -136,13 +136,13 @@ main {
 }
 
 .markdown-title {
-    font-family: 'Roboto Slab';
+    font-family: "Roboto Slab";
     font-size: 27px;
     color: var(--navy_blue);
 }
 
 .text {
-    font-family: 'Roboto Slab', 'serif';
+    font-family: "Roboto Slab", "serif";
     color: #595959;
     font-size: 15px;
 }
@@ -164,10 +164,10 @@ main {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-family: 'Roboto Slab', 'serif';
+    font-family: "Roboto Slab", "serif";
     font-size: 12px;
     z-index: 9999;
-  }
+}
 
 .tooltip {
     position: absolute;
@@ -178,13 +178,13 @@ main {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-family: 'Roboto Slab', 'serif';
+    font-family: "Roboto Slab", "serif";
     font-size: 12px;
     z-index: 9999;
 }
 
 #tooltip-title {
-    font-family: 'Roboto Slab', 'serif';
+    font-family: "Roboto Slab", "serif";
     font-weight: normal;
     font-size: 16px;
 }
@@ -194,10 +194,40 @@ main {
 }
 
 .header {
-    background-image: linear-gradient(to bottom, transparent 30%, white), url('./images/im2.png');
+    background-image: linear-gradient(to bottom, transparent 30%, white),
+        url("./images/im2.png");
     background-size: cover;
     background-position: center;
     position: relative;
     height: auto;
     min-height: 90%;
+}
+
+.viz5-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.viz5-dropdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#categoryDropdown {
+    width: 10%;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #1c9caf;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.5s;
 }

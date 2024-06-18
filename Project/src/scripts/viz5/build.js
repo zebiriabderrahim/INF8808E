@@ -1,45 +1,44 @@
-'use strict'
+"use strict";
 
-import * as viz from './viz_5'
-import * as helper from './helper'
-import * as legend from './legend'
-/**
- * @file This file is the entry point for the code of the radar chart.
- */
+import * as viz from "./viz_5";
+import * as helper from "./helper";
 
-/**
- *
- */
-export function build () {
+export function build(category = "all") {
   (function (d3) {
-    d3.csv('./Métriques.csv').then(function (data) {
-      const formattedData = data.map((d) => ({
-        Equipe: d['Équipe'],
-        Arrêts: parseFloat(d['Arrets%'].replace(',', '.')),
-        Gagnés: parseFloat(d['% gagnés'].replace(',', '.')),
-        Tcl: parseFloat(d['Tcl%'].replace(',', '.')),
-        Possession: parseFloat(d.Possession.replace(',', '.')),
-        Cmp: parseFloat(d['Cmp%'].replace(',', '.'))
-      }))
+    d3.csv("./italian_team_event_frequencies.csv").then(function (data) {
+      if (category !== "all") {
+        data = data.filter((d) => d.Category === category);
+        console.log(data);
+      }
 
-      const margin = { top: 70, right: 100, bottom: 35, left: 400 }
-      const width = 500
-      const height = 400
+      const margin = { top: 40, right: 30, bottom: 60, left: 150 };
+      const width = 1030 - margin.left - margin.right;
+      const height = 500 - margin.top - margin.bottom;
 
-      const radius = Math.min(width, height) / 2
+      d3.select(".viz5-container").selectAll("*").remove(); // Clear previous SVG
+      const svg = helper.generateSVG(width, height, margin);
 
-      const svg = helper.generateSVG(width, height, margin)
-
-      const valueScale = d3.scaleLinear().domain([0, 1]).range([0, radius])
-
-      const ticks = [0, 0.25, 0.5, 0.75, 1]
-      const tickLabels = ['0', '25', '50', '75', '100']
-
-      legend.drawLegend()
-
-      viz.drawCircles(height, width, ticks, svg, valueScale, tickLabels)
-      viz.drawAreaLines(formattedData, svg, valueScale, radius, width, height)
-      viz.drawRadarPath(formattedData, svg, valueScale, radius, width, height)
-    })
-  })(d3)
+      // legend.drawLegend();
+      viz.drawBarChart(data, svg, width, height);
+    });
+  })(d3);
 }
+document
+  .getElementById("categoryDropdown")
+  .addEventListener("change", function () {
+    const selectedCategory = this.value;
+    build(selectedCategory);
+  });
+
+const dropdown = document.getElementById("categoryDropdown");
+const colors = ["#008C45", "#1c9caf", "#CD212A"];
+let previousColorIndex = -1;
+
+dropdown.addEventListener("mouseover", function () {
+  let newColorIndex;
+  do {
+    newColorIndex = Math.floor(Math.random() * colors.length);
+  } while (newColorIndex === previousColorIndex);
+  dropdown.style.backgroundColor = colors[newColorIndex];
+  previousColorIndex = newColorIndex;
+});
