@@ -1,13 +1,13 @@
 import * as tip from './tooltip'
+import * as helper from './helper'
 
 /**
  * @param scale
  * @param data
  * @param width
  */
-export function updateXScale (scale, data, width) {
-  const max = d3.max(data, d => d3.sum(Object.values(d).slice(1)))
-  scale.domain([0, max])
+export function updateXScale(scale, data, width) {
+  scale.domain([20, 80])
     .range([0, width])
 }
 
@@ -16,11 +16,11 @@ export function updateXScale (scale, data, width) {
  * @param data
  * @param height
  */
-export function updateYScale (scale, data, height) {
+export function updateYScale(scale, data, height) {
   const teams = data.map(d => d.TeamName)
   scale.domain(teams)
     .range([0, height])
-    .padding([0.2])
+    .padding([1])
 }
 
 /** Draw the box and whisker plot
@@ -33,9 +33,9 @@ export function updateYScale (scale, data, height) {
  * @param height
  * @param margin
  */
-export function drawBoxes (data, color, x, y, svg, width, height, margin) {
+export function drawBoxes(data, color, x, y, svg, width, height, margin) {
   // Draw the box and whisker plot
-  const boxWidth = 10;
+  const boxWidth = 15;
 
   // Create a group for each data point
   const groups = svg.selectAll(".box")
@@ -51,7 +51,39 @@ export function drawBoxes (data, color, x, y, svg, width, height, margin) {
     .attr("y", -boxWidth / 2)
     .attr("width", d => x(d3.quantile(d.BallPossession, 0.75)) - x(d3.quantile(d.BallPossession, 0.25)))
     .attr("height", boxWidth)
-    .attr("fill", d => d.TeamName === 'Italy' ? color.Italy : color.default);
+    .attr("fill", d => d.TeamName === 'Italy' ? color.Italy : color.default)
+    .on("mouseover", function (event, d) {
+      tip.tooltip.show(d, this);
+    })
+    .on("mouseout", tip.tooltip.hide);
+
+  // Draw the whiskers
+  groups.append("line")
+    .attr("x1", d => x(d3.min(helper.getOultiers(d.BallPossession))))
+    .attr("y1", 0)
+    .attr("x2", d => x(d3.max(helper.getOultiers(d.BallPossession))))
+    .attr("y2", 0)
+    .attr("stroke", d => d.TeamName === 'Italy' ? color.Italy : color.default)
+    .attr("stroke-width", 2);
+
+
+  // Draw the vertical line delimiter
+  groups.append("line")
+    .attr("x1", d => x(d3.min(helper.getOultiers(d.BallPossession))))
+    .attr("y1", -boxWidth / 4)
+    .attr("x2", d => x(d3.min(helper.getOultiers(d.BallPossession))))
+    .attr("y2", boxWidth / 4)
+    .attr("stroke", "black")
+    .attr("stroke-width", 2);
+
+  groups.append("line")
+    .attr("x1", d => x(d3.max(helper.getOultiers(d.BallPossession))))
+    .attr("y1", -boxWidth / 4)
+    .attr("x2", d => x(d3.max(helper.getOultiers(d.BallPossession))))
+    .attr("y2", boxWidth / 4)
+    .attr("stroke", "black")
+    .attr("stroke-width", 2);
+
 
   // Draw the median line
   groups.append("line")
@@ -61,31 +93,25 @@ export function drawBoxes (data, color, x, y, svg, width, height, margin) {
     .attr("y2", boxWidth / 2)
     .attr("stroke", "red");
 
-  // Draw the whiskers
-  groups.append("line")
-    .attr("x1", d => x(d3.min(d.BallPossession)))
-    .attr("y1", 0)
-    .attr("x2", d => x(d3.quantile(d.BallPossession, 0.25)))
-    .attr("y2", 0)
-    .attr("stroke", d => d.TeamName === 'Italy' ? color.Italy : color.default);
-
-  groups.append("line")
-    .attr("x1", d => x(d3.max(d.BallPossession)))
-    .attr("y1", 0)
-    .attr("x2", d => x(d3.quantile(d.BallPossession, 0.75)))
-    .attr("y2", 0)
-    .attr("stroke", d => d.TeamName === 'Italy' ? color.Italy : color.default);
-
   // Draw the outliers
   groups.selectAll(".outlier")
-    .data(d => d.BallPossession.filter(v => v < d3.min(d.BallPossession) || v > d3.max(d.BallPossession)))
+    .data(d => {
+      const lowerBound = d3.quantile(d.BallPossession, 0.25) - 1.5 * (d3.quantile(d.BallPossession, 0.75) - d3.quantile(d.BallPossession, 0.25));
+      const upperBound = d3.quantile(d.BallPossession, 0.75) + 1.5 * (d3.quantile(d.BallPossession, 0.75) - d3.quantile(d.BallPossession, 0.25));
+      return d.BallPossession.filter(v => v < lowerBound || v > upperBound);
+    })
     .enter()
     .append("circle")
     .attr("class", "outlier")
     .attr("cx", d => x(d))
     .attr("cy", 0)
     .attr("r", 3)
-    .attr("fill", "black");
+    .attr("fill", "white")
+    .attr("stroke", d => d.TeamName === 'Italy' ? color.Italy : color.default)
+    .on("mouseover", function (event, d) {
+      tip.tooltip.show(d, this);
+    })
+    .on("mouseout", tip.tooltip.hide);
 
   svg.append('text')
     .attr('class', 'x-axis-label')
@@ -103,8 +129,7 @@ export function drawBoxes (data, color, x, y, svg, width, height, margin) {
     .attr('dy', '1em')
     .attr('transform', 'rotate(-90)')
     .style('font-weight', 'bold')
-    .text('Team Names')
+    .text('Team Names');
 
-    
   svg.call(tip.tooltip)
 }
