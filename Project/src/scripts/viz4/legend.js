@@ -8,16 +8,21 @@ export function drawLegend () {
   ]
 
   const svg = d3.select('.viz4-svg')
+  const legendContainerWidth = 300
+  const svgWidth = +svg.attr('width')
+  const legendStartX = (svgWidth - legendContainerWidth) / 2
 
   const legend = svg.append('g')
     .attr('class', 'legend-container')
+    .attr('transform', `translate(${legendStartX}, 0)`)
+  
     .selectAll('.legend')
     .data(legendData)
     .enter()
     .append('g')
     .attr('class', 'legend')
     .attr('transform', function (d, i) {
-      return 'translate(' + (325 + (i * 150)) + ', 0)'
+      return 'translate(' + (i * 150) + ', 0)'
     })
 
   legend.append('rect')
@@ -30,10 +35,9 @@ export function drawLegend () {
     })
 
   legend.append('text')
-    .attr('x', 35)
+    .attr('x', 40)
     .attr('y', 19)
     .attr('dy', '.35em')
-    .style('font-weight', 'bold')
     .text(function (d) {
       return d.label
     })

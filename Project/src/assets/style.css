@@ -20,19 +20,6 @@ main {
     padding-right: 25px;
 }
 
-.viz4-container {
-    height: 100%;
-    padding: 0px;
-    padding-left: 20%;
-}
-
-.viz4-graph {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .tick line {
     visibility: hidden;
@@ -50,7 +37,7 @@ main {
     justify-content: center;
     align-items: center;
 }
-
+.viz4-container,
 .viz6-container,
 .viz3-container,
 .viz7-container {

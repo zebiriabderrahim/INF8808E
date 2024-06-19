@@ -50,6 +50,8 @@ export function build () {
         .call(d3.axisLeft(yScale).ticks(5))
 
       viz.drawBoxes(teams, boxColors, xScale, yScale, svg, width, height, margin)
+
+      legend.drawLegend()
     })
 
   })(d3)

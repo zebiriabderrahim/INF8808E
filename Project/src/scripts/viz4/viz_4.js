@@ -45,6 +45,15 @@ export function drawBoxes(data, color, x, y, svg, width, height, margin) {
     .attr("class", "box")
     .attr("transform", d => `translate(0, ${y(d.TeamName)})`);
 
+  // Draw the whiskers
+  groups.append("line")
+    .attr("x1", d => x(d3.min(helper.getOultiers(d.BallPossession))))
+    .attr("y1", 0)
+    .attr("x2", d => x(d3.max(helper.getOultiers(d.BallPossession))))
+    .attr("y2", 0)
+    .attr("stroke", d => d.TeamName === 'Italy' ? color.Italy : color.default)
+    .attr("stroke-width", 2);
+
   // Draw the box
   groups.append("rect")
     .attr("x", d => x(d3.quantile(d.BallPossession, 0.25)))
@@ -57,29 +66,19 @@ export function drawBoxes(data, color, x, y, svg, width, height, margin) {
     })
     .on("mouseout", tip.tooltip.hide);
 
-  // Draw the whiskers
-  groups.append("line")
-    .attr("x1", d => x(d3.min(helper.getOultiers(d.BallPossession))))
-    .attr("y1", 0)
-    .attr("x2", d => x(d3.max(helper.getOultiers(d.BallPossession))))
-    .attr("y2", 0)
-    .attr("stroke", d => d.TeamName === 'Italy' ? color.Italy : color.default)
-    .attr("stroke-width", 2);
-
-
   // Draw the vertical line delimiter
   groups.append("line")
-    .attr("x1", d => x(d3.min(helper.getOultiers(d.BallPossession))))
+    .attr("x1", d => x(Math.min(d3.min(helper.getOultiers(d.BallPossession)), d3.quantile(d.BallPossession, 0.25))))
     .attr("y1", -boxWidth / 4)
-    .attr("x2", d => x(d3.min(helper.getOultiers(d.BallPossession))))
+    .attr("x2", d => x(Math.min(d3.min(helper.getOultiers(d.BallPossession)), d3.quantile(d.BallPossession, 0.25))))
     .attr("y2", boxWidth / 4)
     .attr("stroke", "black")
     .attr("stroke-width", 2);
 
   groups.append("line")
-    .attr("x1", d => x(d3.max(helper.getOultiers(d.BallPossession))))
+    .attr("x1", d => x(Math.max(d3.max(helper.getOultiers(d.BallPossession)), d3.quantile(d.BallPossession, 0.75))))
     .attr("y1", -boxWidth / 4)
-    .attr("x2", d => x(d3.max(helper.getOultiers(d.BallPossession))))
+    .attr("x2", d => x(Math.max(d3.max(helper.getOultiers(d.BallPossession)), d3.quantile(d.BallPossession, 0.75))))
     .attr("y2", boxWidth / 4)
     .attr("stroke", "black")
     .attr("stroke-width", 2);
