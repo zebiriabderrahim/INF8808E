@@ -7,6 +7,5 @@ export function getContents (d) {
   <strong>Passes clés:</strong> ${d.data['Passes clés']}<br/>
   <strong>Passes décisives:</strong> ${d.data['Passes décisives']}<br/>
   <strong>Buts:</strong> ${d.data.Buts}<br/>
-`;
-  }
-  
+`
+}
