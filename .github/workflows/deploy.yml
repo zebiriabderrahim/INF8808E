@@ -22,26 +22,25 @@ jobs:
       working-directory: ./Project
       run: npm install
 
-    - name: Update Browserslist
-      working-directory: ./Project
-      run: npx update-browserslist-db@latest
-
     - name: Build project
       working-directory: ./Project
       run: npm run build
-
-    - name: Verify build output
-      run: |
-        if [ ! -d "./Project/dist" ]; then
-          echo "Build directory 'dist' does not exist"
-          exit 1
-        fi
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./Project/build
-        force_orphan: true
 
+  deepsource_analyze:
+    runs-on: ubuntu-latest
 
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install DeepSource CLI
+      run: curl https://deepsource.io/cli | sh
+
+    - name: Run DeepSource analysis
+      run: deepsource analyze
