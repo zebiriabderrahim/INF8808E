@@ -30,7 +30,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./Project/build
+        publish_dir: ./Project/dist
 
   deepsource_analyze:
     runs-on: ubuntu-latest
