@@ -31,16 +31,3 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./Project/dist
-
-  deepsource_analyze:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Install DeepSource CLI
-      run: curl https://deepsource.io/cli | sh
-
-    - name: Run DeepSource analysis
-      run: deepsource analyze
