@@ -1,7 +1,7 @@
 'use strict'
 
-import * as viz from './viz_5'
 import * as helper from './helper'
+import * as viz from './viz_5'
 
 /**
  * @param category
@@ -17,7 +17,7 @@ export function build (category = 'all') {
       const width = 1030 - margin.left - margin.right
       const height = 500 - margin.top - margin.bottom
 
-      d3.select('.viz5-container').selectAll('*').remove() // Clear previous SVG
+      d3.select('.viz5-container').selectAll('*').remove()
       const svg = helper.generateSVG(width, height, margin)
 
       // legend.drawLegend();
@@ -25,22 +25,10 @@ export function build (category = 'all') {
     })
   })(d3)
 }
+
 document
   .getElementById('categoryDropdown')
   .addEventListener('change', function () {
     const selectedCategory = this.value
     build(selectedCategory)
   })
-
-const dropdown = document.getElementById('categoryDropdown')
-const colors = ['#008C45', '#1c9caf', '#CD212A']
-let previousColorIndex = -1
-
-dropdown.addEventListener('mouseover', function () {
-  let newColorIndex
-  do {
-    newColorIndex = Math.floor(Math.random() * colors.length)
-  } while (newColorIndex === previousColorIndex)
-  dropdown.style.backgroundColor = colors[newColorIndex]
-  previousColorIndex = newColorIndex
-})

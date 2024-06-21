@@ -6,8 +6,8 @@ import * as tip from './tooltip'
  * @param width
  */
 export function updateXScale (scale, data, width) {
-  const teams = data.map(d => d.Team)
-  scale.domain(teams)
+  const sortedTeams = data.sort((a, b) => a.AverageGoalsPerPlayerByTeam - b.AverageGoalsPerPlayerByTeam).map(d => d.Team)
+  scale.domain(sortedTeams)
     .range([0, width])
     .padding([0.2])
 }
@@ -33,7 +33,7 @@ export function updateYScale (scale, data, height) {
  * @param {number} height - The height of the chart.
  * @param {Object} margin - The margin configuration.
  */
-export function drawBars (data, color, x, y, svg, width, height, margin) {
+export function drawBars(data, color, x, y, svg, width, height, margin) {
   svg.append('g')
     .selectAll('rect')
     .data(data)
@@ -48,13 +48,14 @@ export function drawBars (data, color, x, y, svg, width, height, margin) {
     .on('mouseout', tip.tooltip.hide)
     .on('mousemove', function (event, d) {
       tip.tooltip.show(d, this)
-    })
+    });
 
   svg.append('text')
     .attr('class', 'x-axis-label')
     .attr('text-anchor', 'middle')
     .attr('x', width / 2.4)
     .attr('y', height + margin.bottom - 20)
+    .style('font-weight', 'bold')
     .text('Team')
 
   svg.append('text')
@@ -64,6 +65,7 @@ export function drawBars (data, color, x, y, svg, width, height, margin) {
     .attr('y', -margin.right - 10)
     .attr('dy', '1em')
     .attr('transform', 'rotate(-90)')
+    .style('font-weight', 'bold')
     .text('Average Goals Per Player')
 
   svg.call(tip.tooltip)

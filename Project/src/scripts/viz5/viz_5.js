@@ -19,7 +19,6 @@ export function drawBarChart (data, svg, width, height) {
     .nice()
     .range([0, width])
 
-  // Add X axis
   svg
     .append('g')
     .attr('transform', `translate(0,${height})`)
@@ -27,14 +26,14 @@ export function drawBarChart (data, svg, width, height) {
     .selectAll('text')
     .attr('class', 'axis-label')
 
-  // Add X axis label
   svg
     .append('text')
     .attr('class', 'axis-label')
-    .attr('x', width / 2)
-    .attr('y', height + 35)
+    .attr('x', width / 2 - 30)
+    .attr('y', height + 41)
     .attr('text-anchor', 'middle')
     .text('Count')
+    .style('font-weight', 'bold')
 
   svg
     .append('g')
@@ -50,6 +49,7 @@ export function drawBarChart (data, svg, width, height) {
     .attr('text-anchor', 'middle')
     .attr('transform', 'rotate(-90)')
     .text('Event')
+    .style('font-weight', 'bold')
 
   svg
     .selectAll('.bar')
@@ -61,19 +61,11 @@ export function drawBarChart (data, svg, width, height) {
     .attr('x', 0)
     .attr('width', (d) => x(d.Frequency))
     .attr('height', y.bandwidth())
-    .attr('fill', '#dd5524')
+    .attr('fill', '#1c9caf')
     .on('mouseover', function (event, d) {
       tip.tooltip.show(d, this)
     })
     .on('mouseout', tip.tooltip.hide)
 
   svg.call(tip.tooltip)
-
-  svg
-    .append('text')
-    .attr('class', 'chart-title')
-    .attr('x', width / 2 - 60)
-    .attr('y', -10)
-    .attr('text-anchor', 'middle')
-    .text('Frequency of events for Italian National Team during EURO 2020')
 }

@@ -70,7 +70,7 @@ export function drawBars (data, color, x, y, svg, width, height, margin) {
     .attr('dy', '1em')
     .attr('transform', 'rotate(-90)')
     .style('font-weight', 'bold')
-    .text('Team Names')
+    .text('Team')
 
   svg.call(tip.tooltip)
 }

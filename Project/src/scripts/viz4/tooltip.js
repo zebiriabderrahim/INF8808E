@@ -6,7 +6,7 @@ export const tooltip = d3Tip().attr('class', 'd3-tip').html(function (d) {
 
 function getContent (d) {
   if (typeof d === 'string') {
-    return `Outlier value: ${d}`;
+    return `Outlier value: ${d}%`;
   }
 
   const median = d3.median(d.BallPossession);
@@ -14,14 +14,14 @@ function getContent (d) {
   const q3 = d3.quantile(d.BallPossession, 0.75);
   const min = d3.min(d.BallPossession);
   const max = d3.max(d.BallPossession);
-
+  
   return `
     <div>
-      <div>Median: ${median}</div>
-      <div>first quartile: ${q1}</div>
-      <div>third quartile: ${q3}</div>
-      <div>Min: ${min}</div>
-      <div>Max: ${max}</div>
+      <div>Median: ${median}%</div>
+      <div>first quartile: ${q1}%</div>
+      <div>third quartile: ${q3}%</div>
+      <div>Min: ${min}%</div>
+      <div>Max: ${max}%</div>
     </div>
   `;
 }
