@@ -33,14 +33,9 @@ export function build () {
       viz.updateYScale(yScale, data, height)
 
       svg.append('g')
+        .attr('height', 20)
         .attr('transform', 'translate(0,' + height + ')')
-        .call(d3.axisBottom(xScale))
-        .selectAll('text')
-        .style('font-style', 'italic')
-        .attr('transform', 'rotate(-45)')
-        .style('text-anchor', 'end')
-        .attr('dx', '-0.8em')
-        .attr('dy', '0.15em')
+        .call(d3.axisBottom(xScale).tickSizeOuter(10))
 
       svg.append('g')
         .call(d3.axisLeft(yScale).ticks(5))
