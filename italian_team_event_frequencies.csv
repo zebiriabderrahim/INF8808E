@@ -8,7 +8,7 @@ GoalAttemptBlocked,650,goal
 GoalAttemptOnTarget,600,goal
 Offside,550,foul
 Substitution,500,other
-YellowCard,450,card
+YellowCard,450,other
 Skill,400,other
 Goal,350,goal
 VarNotification,300,other
