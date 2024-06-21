@@ -1,15 +1,15 @@
-import * as tip from './tooltip'
+import * as tip from './tooltip';
 
 /**
  * @param scale
  * @param data
  * @param width
  */
-export function updateXScale (scale, data, width) {
-  const teams = data.map(d => d.Team)
-  scale.domain(teams)
+export function updateXScale(scale, data, width) {
+  const sortedTeams = data.sort((a, b) => a.AverageGoalsPerPlayerByTeam - b.AverageGoalsPerPlayerByTeam).map(d => d.Team);
+  scale.domain(sortedTeams)
     .range([0, width])
-    .padding([0.2])
+    .padding([0.2]);
 }
 
 /**
@@ -17,10 +17,10 @@ export function updateXScale (scale, data, width) {
  * @param data
  * @param height
  */
-export function updateYScale (scale, data, height) {
-  const max = d3.max(data, d => d.AverageGoalsPerPlayerByTeam)
+export function updateYScale(scale, data, height) {
+  const max = d3.max(data, d => d.AverageGoalsPerPlayerByTeam);
   scale.domain([0, max])
-    .range([height, 0])
+    .range([height, 0]);
 }
 
 /**
@@ -33,7 +33,7 @@ export function updateYScale (scale, data, height) {
  * @param {number} height - The height of the chart.
  * @param {Object} margin - The margin configuration.
  */
-export function drawBars (data, color, x, y, svg, width, height, margin) {
+export function drawBars(data, color, x, y, svg, width, height, margin) {
   svg.append('g')
     .selectAll('rect')
     .data(data)
@@ -47,15 +47,15 @@ export function drawBars (data, color, x, y, svg, width, height, margin) {
     .on('mouseover', tip.tooltip.show)
     .on('mouseout', tip.tooltip.hide)
     .on('mousemove', function (event, d) {
-      tip.tooltip.show(d, this)
-    })
+      tip.tooltip.show(d, this);
+    });
 
   svg.append('text')
     .attr('class', 'x-axis-label')
     .attr('text-anchor', 'middle')
     .attr('x', width / 2.4)
     .attr('y', height + margin.bottom - 20)
-    .text('Team')
+    .text('Team');
 
   svg.append('text')
     .attr('class', 'y-axis-label')
@@ -64,7 +64,7 @@ export function drawBars (data, color, x, y, svg, width, height, margin) {
     .attr('y', -margin.right - 10)
     .attr('dy', '1em')
     .attr('transform', 'rotate(-90)')
-    .text('Average Goals Per Player')
+    .text('Average Goals Per Player');
 
-  svg.call(tip.tooltip)
+  svg.call(tip.tooltip);
 }
