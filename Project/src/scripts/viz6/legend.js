@@ -1,33 +1,43 @@
-const width = 300
-const margin = { top: 50, right: 70, bottom: 50, left: 100 }
-const graphWidth = width - margin.left - margin.right + 150
-
 /**
- * @param svg
- * @param colorScale
+ *
  */
-export function drawLegend (svg, colorScale) {
-  const legend = svg.append('g')
-    .attr('class', 'legend')
-    .attr('transform', 'translate(' + (margin.left + graphWidth - 10) + ',' + (margin.top + 20) + ')')
+export function drawLegend () {
+  const legendData = [
+    { label: 'Italy', color: '#dd5524' },
+    { label: 'Other Teams', color: '#008eaa' }
+  ]
 
-  legend.selectAll('.legend-item')
-    .data(colorScale.domain())
+  const svg = d3.select('.viz6-svg')
+  const legendContainerWidth = 300
+  const svgWidth = +svg.attr('width')
+  const legendStartX = (svgWidth - legendContainerWidth) / 2
+
+  const legend = svg.append('g')
+    .attr('class', 'legend-container')
+    .attr('transform', `translate(${legendStartX}, ${20})`)
+    .selectAll('.legend')
+    .data(legendData)
     .enter()
     .append('g')
-    .attr('class', 'legend-item')
-    .attr('transform', function (d, i) { return 'translate(' + i * 200 + ', 0)' })
-    .each(function (d) {
-      const item = d3.select(this)
-      item.append('rect')
-        .attr('x', 30)
-        .attr('width', 18)
-        .attr('height', 18)
-        .attr('fill', colorScale(d))
-      item.append('text')
-        .attr('x', 70)
-        .attr('y', 9)
-        .attr('dy', '0.35em')
-        .text(d)
+    .attr('class', 'legend')
+    .attr('transform', function (d, i) {
+      return 'translate(' + (i * 150) + ', 0)'
+    })
+
+  legend.append('rect')
+    .attr('x', 10)
+    .attr('y', 10)
+    .attr('width', 18)
+    .attr('height', 18)
+    .style('fill', function (d) {
+      return d.color
+    })
+
+  legend.append('text')
+    .attr('x', 40)
+    .attr('y', 19)
+    .attr('dy', '.35em')
+    .text(function (d) {
+      return d.label
     })
 }

@@ -1,11 +1,11 @@
-/**
- * @param d
- */
-export function getContents (d) {
-  return `
-  <strong>Joueur:</strong> ${d.data.Joueur}<br/>
-  <strong>Passes clés:</strong> ${d.data['Passes clés']}<br/>
-  <strong>Passes décisives:</strong> ${d.data['Passes décisives']}<br/>
-  <strong>Buts:</strong> ${d.data.Buts}<br/>
-`
+import d3Tip from 'd3-tip'
+
+export const tooltip = d3Tip().attr('class', 'd3-tip').html(function (d) {
+  return getContent(d)
+})
+
+function getContent (d) {
+  const offAttempts = d.TotalAttemptsOffTarget !== undefined ? d.TotalAttemptsOffTarget : 'N/A'
+  const onAttempts = d.TotalAttemptsOnTarget !== undefined ? d.TotalAttemptsOnTarget : 'N/A'
+  return `${d.TeamName}:<br>${offAttempts} Total Attempts Off Target<br>${onAttempts} Total Attempts On Target`
 }
