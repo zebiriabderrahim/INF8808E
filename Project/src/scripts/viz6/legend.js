@@ -1,6 +1,3 @@
-/**
- *
- */
 export function drawLegend () {
   const legendData = [
     { label: 'Italy', color: '#dd5524' },
@@ -24,11 +21,10 @@ export function drawLegend () {
       return 'translate(' + (i * 150) + ', 0)'
     })
 
-  legend.append('rect')
-    .attr('x', 10)
-    .attr('y', 10)
-    .attr('width', 18)
-    .attr('height', 18)
+  legend.append('circle')
+    .attr('cx', 19)
+    .attr('cy', 19)
+    .attr('r', 9)
     .style('fill', function (d) {
       return d.color
     })

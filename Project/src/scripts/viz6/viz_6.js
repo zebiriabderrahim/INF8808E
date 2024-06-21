@@ -6,7 +6,7 @@ import * as tip from './tooltip'
  * @param width
  */
 export function updateXScale (scale, data, width) {
-  const max = d3.max(data, d => d['TotalAttemptsOnTarget'])
+  const max = d3.max(data, d => d.TotalAttemptsOnTarget)
   scale.domain([0, max])
     .range([0, width])
 }
@@ -17,7 +17,7 @@ export function updateXScale (scale, data, width) {
  * @param height
  */
 export function updateYScale (scale, data, height) {
-  const max = d3.max(data, d => d['TotalAttemptsOffTarget'])
+  const max = d3.max(data, d => d.TotalAttemptsOffTarget)
   scale.domain([0, max])
     .range([height, 0])
 }
@@ -34,8 +34,8 @@ export function drawScatterPlot (data, color, x, y, svg, width, height, margin) 
     .data(data)
     .enter()
     .append('circle')
-    .attr('cx', d => x(d['TotalAttemptsOnTarget']))
-    .attr('cy', d => y(d['TotalAttemptsOffTarget']))
+    .attr('cx', d => x(d.TotalAttemptsOnTarget))
+    .attr('cy', d => y(d.TotalAttemptsOffTarget))
     .attr('r', 5)
     .style('fill', d => d.TeamName === 'Italy' ? color.Italy : color.default)
     .on('mouseover', tip.tooltip.show)
@@ -49,6 +49,7 @@ export function drawScatterPlot (data, color, x, y, svg, width, height, margin) 
     .attr('text-anchor', 'middle')
     .attr('x', width / 2)
     .attr('y', height + margin.bottom - 20)
+    .style('font-weight', 'bold')
     .text('Total Attempts On Target')
   svg.append('text')
     .attr('class', 'y-axis-label')
@@ -57,6 +58,7 @@ export function drawScatterPlot (data, color, x, y, svg, width, height, margin) 
     .attr('y', -margin.left + 20)
     .attr('dy', '1em')
     .attr('transform', 'rotate(-90)')
+    .style('font-weight', 'bold')
     .text('Total Attempts Off Target')
 
   svg.call(tip.tooltip)
