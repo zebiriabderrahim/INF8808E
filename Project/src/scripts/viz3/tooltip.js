@@ -5,5 +5,6 @@ export const tooltip = d3Tip().attr('class', 'd3-tip').html(function (d) {
 })
 
 function getContent (d) {
-  return `${d.Team}: ${d.AverageGoalsPerPlayerByTeam.toFixed(2)} Goals per Player`
+  const averageGoals = d.AverageGoalsPerPlayerByTeam !== undefined ? d.AverageGoalsPerPlayerByTeam.toFixed(2) : 'N/A'
+  return `${d.Team}: ${averageGoals} Goals per Player`
 }
