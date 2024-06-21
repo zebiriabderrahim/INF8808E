@@ -5,63 +5,49 @@ import * as helper from './helper'
 import * as legend from './legend'
 
 /**
- * @file This file is the entry-point for the the code of the offensive contributions of the team
- */
-
-/**
- *
+ * @file This file is the entry-point for the code of the scatter plot.
  */
 export function build () {
   (function (d3) {
-    const margin = { top: 35, right: 100, bottom: 200, left: 50 }
-    const width = 1300
-    const height = 480
+    const margin = { top: 50, right: 50, bottom: 100, left: 150 }
+    const width = 1000 - margin.left - margin.right
+    const height = 600 - margin.top - margin.bottom
 
-    const colorScale = d3.scaleOrdinal()
-      .domain(['Passes clés', 'Passes décisives', 'Buts'])
-      .range(['#d7b442', '#c72527', '#3c906c'])
-
-    const barColors = [
-      '#FAD02C',
-      '#FF0000'
-    ]
-
-    const xScale = d3.scaleBand()
-    const yScale = d3.scaleLinear()
+    const barColors = {
+      Italy: '#dd5524',
+      default: '#008eaa'
+    }
 
     const svg = helper.generateSVG(width, height, margin)
 
-    d3.csv('./Offensif.csv').then(function (data) {
-      const subgroups = data.columns.slice(1)
+    d3.csv('./attempts_summary_no_matchid.csv').then(function (data) {
+      data.forEach(d => {
+        d['TotalAttemptsOnTarget'] = +d['TotalAttemptsOnTarget']
+        d['TotalAttemptsOffTarget'] = +d['TotalAttemptsOffTarget']
+      })
+
+      const xScale = d3.scaleLinear()
+      const yScale = d3.scaleLinear()
 
       viz.updateXScale(xScale, data, width)
-      viz.unpdateYScale(yScale, data, height)
+      viz.updateYScale(yScale, data, height)
 
       svg.append('g')
         .attr('transform', 'translate(0,' + height + ')')
-        .call(d3.axisBottom(xScale).tickSizeOuter(0))
+        .call(d3.axisBottom(xScale))
         .selectAll('text')
-        .attr('transform', 'translate(-10,10)rotate(-45)')
+        .style('font-style', 'italic')
+        .attr('transform', 'rotate(-45)')
         .style('text-anchor', 'end')
-        .style('font-size', '14px')
-        .style('text-anchor', 'end')
-
-      svg.append('text')
-        .attr('transform', `translate(${width / 2}, ${height + margin.top + 100})`)
-        .style('text-anchor', 'middle')
-        .style('font-size', '16px')
-        .text('Joueur')
+        .attr('dx', '-0.8em')
+        .attr('dy', '0.15em')
 
       svg.append('g')
         .call(d3.axisLeft(yScale).ticks(5))
 
-      const color = d3.scaleOrdinal()
-        .domain(subgroups)
-        .range(barColors)
+      viz.drawScatterPlot(data, barColors, xScale, yScale, svg, width, height, margin)
 
-      viz.drawBars(data, color, xScale, yScale, svg)
-
-      legend.drawLegend(svg, colorScale)
+      legend.drawLegend()
     })
   })(d3)
 }
