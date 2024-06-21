@@ -38,34 +38,40 @@ function convertData (data) {
  *
  * @param {object} svg - The main SVG container to add the legend to.
  * @param {Function} colorScale - The color scale used for the chart.
+ * @param columns
+ * @param rows
  */
-function addLegend (svg, colorScale) {
+function addLegend (svg, columns, rows) {
   const legend = svg.append('g')
     .attr('class', 'legend')
-    .attr('transform', `translate(${width * 3 + margin.right}, ${margin.top})`)
+    .attr('transform', `translate(${(columns * (width + margin.left + margin.right)) / 2 - 120}, ${height * rows + 40})`) // Center the legend horizontally
 
-  const domain = colorScale.domain()
+  const legendData = [
+    { color: '#669b45', label: 'Wins' },
+    { color: '#dd5524', label: 'Losses' },
+    { color: '#1c9caf', label: 'Draws' }
+  ]
 
   legend.selectAll('.legend-item')
-    .data(domain)
+    .data(legendData)
     .enter()
     .append('g')
     .attr('class', 'legend-item')
     .attr('font-family', 'Roboto Slab')
     .attr('font-size', '12px')
-    .attr('transform', (d, i) => `translate(0, ${i * 20})`)
+    .attr('transform', (d, i) => `translate(${i * 100}, 0)`) // Position items horizontally
     .each(function (d) {
       const item = d3.select(this)
       item.append('rect')
         .attr('x', 0)
         .attr('width', 18)
         .attr('height', 18)
-        .attr('fill', colorScale(d))
+        .attr('fill', d.color)
       item.append('text')
         .attr('x', 24)
         .attr('y', 9)
         .attr('dy', '0.35em')
-        .text(d)
+        .text(d.label)
     })
 }
 
@@ -172,8 +178,8 @@ export function createGraphs (svg, data) {
   const rows = Math.ceil(teams.length / columns)
 
   // Adjust the size of the main SVG container
-  svg.attr('width', columns * (width + margin.left + margin.right) + width) // Added extra width for the legend
-    .attr('height', rows * (height + margin.top + margin.bottom) + margin.bottom)
+  svg.attr('width', columns * (width + margin.left + margin.right)) // Adjust width as needed
+    .attr('height', rows * (height + margin.top + margin.bottom) + 60) // Added extra height for the legend
 
   teams.forEach((team, i) => {
     const row = Math.floor(i / columns)
@@ -187,7 +193,7 @@ export function createGraphs (svg, data) {
   })
 
   // Add a single legend for the entire visualization
-  addLegend(svg, color)
+  addLegend(svg, columns, rows)
 }
 
 tip.initialize()
