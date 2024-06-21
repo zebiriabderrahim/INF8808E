@@ -24,11 +24,14 @@ export function updateYScale (scale, data, height) {
 }
 
 /**
- * @param data
- * @param color
- * @param x
- * @param y
- * @param svg
+ * @param {Array} data - The data for the bars.
+ * @param {Object} color - The color configuration.
+ * @param {function} x - The x scale function.
+ * @param {function} y - The y scale function.
+ * @param {Object} svg - The SVG container.
+ * @param {number} width - The width of the chart.
+ * @param {number} height - The height of the chart.
+ * @param {Object} margin - The margin configuration.
  */
 export function drawBars (data, color, x, y, svg, width, height, margin) {
   svg.append('g')
@@ -40,20 +43,20 @@ export function drawBars (data, color, x, y, svg, width, height, margin) {
     .attr('y', d => y(d.AverageGoalsPerPlayerByTeam))
     .attr('height', d => height - y(d.AverageGoalsPerPlayerByTeam))
     .attr('width', x.bandwidth())
-    .attr('fill', d => d.Team === 'Italy' ? color['Italy'] : color['default'])
+    .attr('fill', d => d.Team === 'Italy' ? color.Italy : color.default)
     .on('mouseover', tip.tooltip.show)
     .on('mouseout', tip.tooltip.hide)
     .on('mousemove', function (event, d) {
       tip.tooltip.show(d, this)
     })
-    
+
   svg.append('text')
     .attr('class', 'x-axis-label')
     .attr('text-anchor', 'middle')
     .attr('x', width / 2.4)
     .attr('y', height + margin.bottom - 20)
     .text('Team')
-  
+
   svg.append('text')
     .attr('class', 'y-axis-label')
     .attr('text-anchor', 'middle')
