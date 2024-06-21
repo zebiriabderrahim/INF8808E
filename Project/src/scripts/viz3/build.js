@@ -14,8 +14,8 @@ export function build () {
     const height = 600
 
     const barColors = {
-      'Italy': '#dd5524',
-      'default': '#008eaa'
+      Italy: '#dd5524',
+      default: '#008eaa'
     }
 
     const xScale = d3.scaleBand().padding(0.2)
@@ -23,7 +23,7 @@ export function build () {
 
     const svg = helper.generateSVG(width, height, margin)
 
-    d3.csv('./average_goals_per_player_by_team.csv').then(function (data) {
+    d3.csv('./Average_Goals_per_Player_by_Team.csv').then(function (data) {
       data.forEach(d => {
         d.AverageGoalsPerPlayerByTeam = +d.AverageGoalsPerPlayerByTeam
       })
