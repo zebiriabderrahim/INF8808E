@@ -33,6 +33,7 @@ export function drawBarChart (data, svg, width, height) {
     .attr('y', height + 41)
     .attr('text-anchor', 'middle')
     .text('Count')
+    .style('font-weight', 'bold')
 
   svg
     .append('g')
@@ -48,6 +49,7 @@ export function drawBarChart (data, svg, width, height) {
     .attr('text-anchor', 'middle')
     .attr('transform', 'rotate(-90)')
     .text('Event')
+    .style('font-weight', 'bold')
 
   svg
     .selectAll('.bar')
