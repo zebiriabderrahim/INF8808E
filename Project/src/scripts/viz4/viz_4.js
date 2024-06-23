@@ -33,15 +33,15 @@ export function updateYScale(scale, data, height) {
  * @param height
  * @param margin
  */
-export function drawBoxes(data, color, x, y, svg, width, height, margin) {
+export function drawBoxes (data, color, x, y, svg, width, height, margin) {
   // Draw the box and whisker plot
-  const boxWidth = 15;
+  const boxWidth = 15
 
   // Create a group for each data point
-  const groups = svg.selectAll(".box")
+  const groups = svg.selectAll('.box')
     .data(data)
     .enter()
-    .append("g")
+    .append('g')
     .attr("class", "box")
     .attr("transform", d => `translate(0, ${y(d.TeamName)})`);
 
@@ -52,7 +52,7 @@ export function drawBoxes(data, color, x, y, svg, width, height, margin) {
     .attr("x2", d => x(d3.max(helper.getOultiers(d.BallPossession))))
     .attr("y2", 0)
     .attr("stroke", d => d.TeamName === 'Italy' ? color.Italy : color.default)
-    .attr("stroke-width", 2);
+    .attr("stroke-width", 2)
 
   // Draw the box
   groups.append("rect")
@@ -128,7 +128,7 @@ export function drawBoxes(data, color, x, y, svg, width, height, margin) {
     .attr('dy', '1em')
     .attr('transform', 'rotate(-90)')
     .style('font-weight', 'bold')
-    .text('Team Names');
+    .text('Team')
 
   svg.call(tip.tooltip)
 }

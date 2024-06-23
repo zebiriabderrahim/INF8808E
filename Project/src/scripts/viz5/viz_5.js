@@ -61,7 +61,7 @@ export function drawBarChart (data, svg, width, height) {
     .attr('x', 0)
     .attr('width', (d) => x(d.Frequency))
     .attr('height', y.bandwidth())
-    .attr('fill', '#1c9caf')
+    .attr('fill', '#dd5524')
     .on('mouseover', function (event, d) {
       tip.tooltip.show(d, this)
     })
