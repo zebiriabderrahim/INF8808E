@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "description": "project INF8808.",
   "scripts": {
+    
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "build": "parcel build ./src/index.html --public-url ./ && cp -r ./src/assets/data/* ./dist",
