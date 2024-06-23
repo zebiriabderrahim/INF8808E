@@ -159,7 +159,7 @@ function createDonutChart (svg, data, team) {
       .attr('text-anchor', 'middle')
       .attr('y', radius + 20)
       .attr('x', 0)
-      .attr('fill', 'gold')
+      .attr('fill', 'black')
       .style('font-size', '14px')
       .style('font-weight', 'bold')
       .text('Winner of EURO 2020')
