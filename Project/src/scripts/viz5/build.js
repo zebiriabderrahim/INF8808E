@@ -4,7 +4,8 @@ import * as helper from './helper'
 import * as viz from './viz_5'
 
 /**
- * @param category
+ * Builds a bar chart visualization based on the provided data.
+ * @param {string} category - The category to filter the data by. Defaults to 'all'.
  */
 export function build (category = 'all') {
   (function (d3) {
@@ -20,7 +21,6 @@ export function build (category = 'all') {
       d3.select('.viz5-container').selectAll('*').remove()
       const svg = helper.generateSVG(width, height, margin)
 
-      // legend.drawLegend();
       viz.drawBarChart(data, svg, width, height)
     })
   })(d3)
