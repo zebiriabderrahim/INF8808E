@@ -90,7 +90,6 @@ function createLegendItem () {
  * @param {Array} data - The data for the chart.
  * @param {string} team - The team name.
  * @returns {void}
- * @param {string} team - The team name.
  */
 function createDonutChart (svg, data, team) {
   const pie = d3.pie()
