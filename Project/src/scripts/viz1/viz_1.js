@@ -5,12 +5,10 @@ const height = 300
 const margin = { top: 30, right: 20, bottom: 20, left: 20 }
 const radius = Math.min(width, height) / 2 - margin.top
 
-// Updated color scale based on your SVG inspection
 const color = d3.scaleOrdinal()
   .domain(['WINS', 'LOSSES', 'DRAWS'])
-  .range(['#669b45', '#dd5524', '#1c9caf']) // Example colors, adjust based on your SVG
+  .range(['#669b45', '#dd5524', '#1c9caf'])
 
-// Map team names to flag image URLs
 const flagMap = {
   Switzerland: 'https://flagcdn.com/w320/ch.png',
   Spain: 'https://flagcdn.com/w320/es.png',
@@ -59,7 +57,7 @@ function addLegend (svg, columns, rows) {
     .attr('class', 'legend-item')
     .attr('font-family', 'Roboto Slab')
     .attr('font-size', '12px')
-    .attr('transform', (d, i) => `translate(${i * 100}, 0)`) // Position items horizontally
+    .attr('transform', (d, i) => `translate(${i * 100}, 0)`)
     .each(function (d) {
       const item = d3.select(this)
       item.append('rect')
@@ -85,12 +83,12 @@ function createDonutChart (svg, data, team) {
     .value(d => d.value)
 
   const arc = d3.arc()
-    .innerRadius(radius * 0.5) // Adjust the inner radius to create the donut shape
+    .innerRadius(radius * 0.5)
     .outerRadius(radius * 0.8)
 
   const arcHover = d3.arc()
-    .innerRadius(radius * 0.5) // Keep the inner radius the same
-    .outerRadius(radius * 0.9) // Increase the outer radius for hover effect
+    .innerRadius(radius * 0.5)
+    .outerRadius(radius * 0.9)
 
   const teamData = data.filter(d => d.TEAM === team)[0]
   const pieData = pie([
@@ -102,7 +100,6 @@ function createDonutChart (svg, data, team) {
   const chartGroup = svg.append('g')
     .attr('transform', `translate(${width / 2}, ${height / 2})`)
 
-  // Add a light grey disc background for Italy
   if (team === 'Italy') {
     chartGroup.append('circle')
       .attr('r', radius * 0.9)
@@ -136,7 +133,6 @@ function createDonutChart (svg, data, team) {
       tip.update(event)
     })
 
-  // Add team label
   chartGroup.append('text')
     .attr('text-anchor', 'middle')
     .attr('y', -radius)
@@ -145,15 +141,13 @@ function createDonutChart (svg, data, team) {
     .attr('fill', '#000')
     .style('font-size', '16px')
 
-  // Add flag image
   chartGroup.append('image')
     .attr('xlink:href', flagMap[team])
-    .attr('x', -80) // Adjust position as needed to place flag to the left
-    .attr('y', -radius - 20) // Adjust position as needed
+    .attr('x', -80)
+    .attr('y', -radius - 20)
     .attr('width', 40)
     .attr('height', 40)
 
-  // Add text annotation for Italy
   if (team === 'Italy') {
     chartGroup.append('text')
       .attr('text-anchor', 'middle')
@@ -174,12 +168,11 @@ export function createGraphs (svg, data) {
   convertData(data)
 
   const teams = data.map(d => d.TEAM)
-  const columns = 3 // Number of charts per row
+  const columns = 3
   const rows = Math.ceil(teams.length / columns)
 
-  // Adjust the size of the main SVG container
-  svg.attr('width', columns * (width + margin.left + margin.right)) // Adjust width as needed
-    .attr('height', rows * (height + margin.top + margin.bottom) + 60) // Added extra height for the legend
+  svg.attr('width', columns * (width + margin.left + margin.right))
+    .attr('height', rows * (height + margin.top + margin.bottom) + 60)
 
   teams.forEach((team, i) => {
     const row = Math.floor(i / columns)
@@ -192,7 +185,6 @@ export function createGraphs (svg, data) {
     createDonutChart(teamSvg, data, team)
   })
 
-  // Add a single legend for the entire visualization
   addLegend(svg, columns, rows)
 }
 

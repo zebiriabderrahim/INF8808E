@@ -5,7 +5,7 @@ import * as helper from './helper'
 import * as legend from './legend'
 
 /**
- * @file This file is the entry-point for the code of the scatter plot.
+ * Builds the visualization.
  */
 export function build () {
   (function (d3) {
@@ -20,10 +20,14 @@ export function build () {
 
     const svg = helper.generateSVG(width, height, margin)
 
+    /**
+     * Loads the data and updates the scales.
+     * @param {Array} data - The data to be visualized.
+     */
     d3.csv('./attempts_summary_no_matchid.csv').then(function (data) {
       data.forEach(d => {
-        d['TotalAttemptsOnTarget'] = +d['TotalAttemptsOnTarget']
-        d['TotalAttemptsOffTarget'] = +d['TotalAttemptsOffTarget']
+        d.TotalAttemptsOnTarget = +d.TotalAttemptsOnTarget
+        d.TotalAttemptsOffTarget = +d.TotalAttemptsOffTarget
       })
 
       const xScale = d3.scaleLinear()
