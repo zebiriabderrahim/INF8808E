@@ -30,13 +30,13 @@ export function updateYScale (scale, data, height) {
  * Draws a scatter plot using the provided data.
  *
  * @param {Array} data - The data to be plotted.
- * @param {Object} color - The color scheme for the plot.
+ * @param {object} color - The color scheme for the plot.
  * @param {Function} x - The x-axis scale function.
  * @param {Function} y - The y-axis scale function.
- * @param {Object} svg - The SVG container for the plot.
+ * @param {object} svg - The SVG container for the plot.
  * @param {number} width - The width of the plot.
  * @param {number} height - The height of the plot.
- * @param {Object} margin - The margin around the plot.
+ * @param {object} margin - The margin around the plot.
  */
 export function drawScatterPlot (data, color, x, y, svg, width, height, margin) {
   svg.selectAll('dot')
