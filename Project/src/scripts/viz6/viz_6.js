@@ -1,9 +1,11 @@
 import * as tip from './tooltip'
 
 /**
- * @param scale
- * @param data
- * @param width
+ * Updates the x-scale of a chart based on the provided data and width.
+ *
+ * @param {d3.scale} scale - The x-scale to be updated.
+ * @param {Array} data - The data used to calculate the maximum value for the x-scale.
+ * @param {number} width - The width of the chart.
  */
 export function updateXScale (scale, data, width) {
   const max = d3.max(data, d => d.TotalAttemptsOnTarget)
@@ -12,9 +14,11 @@ export function updateXScale (scale, data, width) {
 }
 
 /**
- * @param scale
- * @param data
- * @param height
+ * Updates the y-scale of a chart based on the provided data and height.
+ *
+ * @param {d3.scale} scale - The y-scale to be updated.
+ * @param {Array} data - The data used to calculate the maximum value for the y-scale.
+ * @param {number} height - The height of the chart.
  */
 export function updateYScale (scale, data, height) {
   const max = d3.max(data, d => d.TotalAttemptsOffTarget)
@@ -23,11 +27,16 @@ export function updateYScale (scale, data, height) {
 }
 
 /**
- * @param data
- * @param color
- * @param x
- * @param y
- * @param svg
+ * Draws a scatter plot using the provided data.
+ *
+ * @param {Array} data - The data to be plotted.
+ * @param {object} color - The color scheme for the plot.
+ * @param {Function} x - The x-axis scale function.
+ * @param {Function} y - The y-axis scale function.
+ * @param {object} svg - The SVG container for the plot.
+ * @param {number} width - The width of the plot.
+ * @param {number} height - The height of the plot.
+ * @param {object} margin - The margin around the plot.
  */
 export function drawScatterPlot (data, color, x, y, svg, width, height, margin) {
   svg.selectAll('dot')
@@ -38,17 +47,17 @@ export function drawScatterPlot (data, color, x, y, svg, width, height, margin) 
     .attr('cy', d => y(d.TotalAttemptsOffTarget))
     .attr('r', 5)
     .style('fill', d => d.TeamName === 'Italy' ? color.Italy : color.default)
-    .on('mouseover', function(event, d) {
-      d3.select(event.target).attr('r', 7);
-      tip.tooltip.show(d, this);
+    .on('mouseover', function (event, d) {
+      d3.select(event.target).attr('r', 7)
+      tip.tooltip.show(d, this)
     })
-    .on('mouseout', function(event) {
-      d3.select(event.target).attr('r', 5);
-      tip.tooltip.hide();
+    .on('mouseout', function (event) {
+      d3.select(event.target).attr('r', 5)
+      tip.tooltip.hide()
     })
-    .on('mousemove', function(event, d) {
-      tip.tooltip.show(d, this);
-    });
+    .on('mousemove', function (event, d) {
+      tip.tooltip.show(d, this)
+    })
 
   svg.append('text')
     .attr('class', 'x-axis-label')

@@ -1,5 +1,5 @@
 /**
- *
+ * Draws a legend for the visualization.
  */
 export function drawLegend () {
   const legendData = [
@@ -15,7 +15,6 @@ export function drawLegend () {
   const legend = svg.append('g')
     .attr('class', 'legend-container')
     .attr('transform', `translate(${legendStartX}, 0)`)
-  
     .selectAll('.legend')
     .data(legendData)
     .enter()

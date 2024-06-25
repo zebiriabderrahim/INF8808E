@@ -6,29 +6,31 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "build": "parcel build ./src/index.html --public-url ./ && cp -r ./src/assets/data/* ./dist",
-    "start": "parcel ./src/index.html --log-level=2 --port=8080",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "parcel ./src/index.html --log-level=verbose --port=8080",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./src --ext .js,.html"
   },
   "author": "team_4",
   "license": "UNLICENSED",
   "dependencies": {
     "d3": "^7.6.1",
     "d3-svg-legend": "^2.25.6",
-    "d3-tip": "^0.9.1",    
+    "d3-tip": "^0.9.1",
     "parcel": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^7.4.0",
-   "eslint-config-standard": "^14.1.1",
-   "eslint-plugin-import": "^2.22.0",
-   "eslint-plugin-jsdoc": "^29.1.0",
-   "eslint-plugin-node": "^11.1.0",
-   "eslint-plugin-promise": "^4.2.1",
-   "eslint-plugin-standard": "^4.0.1"
- },
- "staticFiles": {
-   "staticPath": [
-     "./src/assets/data"
-   ]
- }
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-html": "^8.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsdoc": "^29.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  },
+  "staticFiles": {
+    "staticPath": [
+      "./src/assets/data"
+    ]
+  }
 }

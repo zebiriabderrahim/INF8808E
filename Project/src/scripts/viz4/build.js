@@ -5,7 +5,7 @@ import * as helper from './helper'
 import * as legend from './legend'
 
 /**
- *
+ * Builds the visualization.
  */
 export function build () {
   (function (d3) {
@@ -24,7 +24,6 @@ export function build () {
     const svg = helper.generateSVG(width, height, margin)
 
     d3.csv('./ball_possession.csv').then(function (data) {
-
       const teams = []
       data.forEach(d => {
         const team = teams.find(t => t.TeamName === d.TeamName)
@@ -37,7 +36,7 @@ export function build () {
           })
         }
       })
-      
+
       viz.updateYScale(yScale, data, height)
       viz.updateXScale(xScale, data, width)
 
@@ -53,6 +52,5 @@ export function build () {
 
       legend.drawLegend()
     })
-
   })(d3)
 }
