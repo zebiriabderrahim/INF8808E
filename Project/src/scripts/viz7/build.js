@@ -5,7 +5,7 @@ import * as helper from './helper'
 import * as legend from './legend'
 
 /**
- *
+ * Builds the visualization.
  */
 export function build () {
   (function (d3) {
@@ -23,6 +23,10 @@ export function build () {
 
     const svg = helper.generateSVG(width, height, margin)
 
+    /**
+     * Loads the data and updates the scales.
+     * @param {Array} data - The data to be visualized.
+     */
     d3.csv('./pass_accuracy.csv').then(function (data) {
       viz.updateYScale(yScale, data, height)
       viz.updateXScale(xScale, data, width)
