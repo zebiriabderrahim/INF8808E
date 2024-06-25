@@ -21,7 +21,9 @@ const flagMap = {
 }
 
 /**
- * @param data
+ * Convert data to the appropriate format.
+ *
+ * @param {Array} data - The data to be converted.
  */
 function convertData (data) {
   data.forEach(function (d) {
@@ -32,12 +34,11 @@ function convertData (data) {
 }
 
 /**
- * Add the legend to the main SVG container.
+ * Add a legend to the SVG container
  *
  * @param {object} svg - The main SVG container to add the legend to.
- * @param {Function} colorScale - The color scale used for the chart.
- * @param columns
- * @param rows
+ * @param {number} columns - The number of columns in the grid.
+ * @param {number} rows - The number of rows in the grid.
  */
 function addLegend (svg, columns, rows) {
   const legend = svg.append('g')
@@ -58,25 +59,38 @@ function addLegend (svg, columns, rows) {
     .attr('font-family', 'Roboto Slab')
     .attr('font-size', '12px')
     .attr('transform', (d, i) => `translate(${i * 100}, 0)`)
-    .each(function (d) {
-      const item = d3.select(this)
-      item.append('rect')
-        .attr('x', 0)
-        .attr('width', 18)
-        .attr('height', 18)
-        .attr('fill', d.color)
-      item.append('text')
-        .attr('x', 24)
-        .attr('y', 9)
-        .attr('dy', '0.35em')
-        .text(d.label)
-    })
+    .each(createLegendItem())
 }
 
 /**
- * @param svg
- * @param data
- * @param team
+ * Create a legend item.
+ *
+ * @returns {Function} - The legend item function.
+ */
+function createLegendItem () {
+  return function (d) {
+    const item = d3.select(this)
+    item.append('rect')
+      .attr('x', 0)
+      .attr('width', 18)
+      .attr('height', 18)
+      .attr('fill', d.color)
+    item.append('text')
+      .attr('x', 24)
+      .attr('y', 9)
+      .attr('dy', '0.35em')
+      .text(d.label)
+  }
+}
+
+/**
+ * Create a donut chart.
+ *
+ * @param {object} svg - The SVG container.
+ * @param {Array} data - The data for the chart.
+ * @param {string} team - The team name.
+ * @returns {void}
+ * @param {string} team - The team name.
  */
 function createDonutChart (svg, data, team) {
   const pie = d3.pie()
@@ -133,6 +147,17 @@ function createDonutChart (svg, data, team) {
       tip.update(event)
     })
 
+  addChartElements(chartGroup, team)
+}
+
+/**
+ * Add elements to the chart.
+ *
+ * @param {object} chartGroup - The chart group.
+ * @param {string} team - The team name.
+ * @returns {void}
+ */
+function addChartElements (chartGroup, team) {
   chartGroup.append('text')
     .attr('text-anchor', 'middle')
     .attr('y', -radius)
@@ -159,10 +184,11 @@ function createDonutChart (svg, data, team) {
       .text('Winner of EURO 2020')
   }
 }
-
 /**
- * @param svg
- * @param data
+ * Create graphs using the provided SVG container and data.
+ *
+ * @param {object} svg - The SVG container.
+ * @param {Array} data - The data for the graphs.
  */
 export function createGraphs (svg, data) {
   convertData(data)
