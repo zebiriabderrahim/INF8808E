@@ -7,7 +7,8 @@
     "deploy": "gh-pages -d dist",
     "build": "parcel build ./src/index.html --public-url ./ && cp -r ./src/assets/data/* ./dist",
     "start": "parcel ./src/index.html --log-level=2 --port=8080",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./src --ext .js,.html"
   },
   "author": "team_4",
   "license": "UNLICENSED",
