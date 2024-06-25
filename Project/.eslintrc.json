@@ -11,5 +11,5 @@
     "globals": {
         "d3": true
     },
-    "plugins": ["jsdoc"]
+    "plugins": ["jsdoc", "html"]
 }
