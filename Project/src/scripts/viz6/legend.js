@@ -1,3 +1,6 @@
+/**
+ * Draws the legend for the visualization.
+ */
 export function drawLegend () {
   const legendData = [
     { label: 'Italy', color: '#dd5524' },
