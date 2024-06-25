@@ -1,9 +1,11 @@
 import * as tip from './tooltip'
 
 /**
- * @param scale
- * @param data
- * @param width
+ * Updates the x-scale of a given chart.
+ *
+ * @param {d3.scale} scale - The x-scale to be updated.
+ * @param {Array} data - The data used to calculate the maximum value.
+ * @param {number} width - The width of the chart.
  */
 export function updateXScale (scale, data, width) {
   const max = d3.max(data, d => d3.sum(Object.values(d).slice(1)))
@@ -12,9 +14,11 @@ export function updateXScale (scale, data, width) {
 }
 
 /**
- * @param scale
- * @param data
- * @param height
+ * Updates the y-scale of a chart.
+ *
+ * @param {d3.scale} scale - The y-scale to update.
+ * @param {Array} data - The data used to update the scale.
+ * @param {number} height - The height of the chart.
  */
 export function updateYScale (scale, data, height) {
   const teams = data.map(d => d.TeamName)
@@ -24,14 +28,16 @@ export function updateYScale (scale, data, height) {
 }
 
 /**
- * @param data
- * @param color
- * @param x
- * @param y
- * @param svg
- * @param width
- * @param height
- * @param margin
+ * Draws the bars for a stacked bar chart.
+ *
+ * @param {Object[]} data - The data for the chart.
+ * @param {Object} color - The color scheme for the chart.
+ * @param {Function} x - The x-axis scale function.
+ * @param {Function} y - The y-axis scale function.
+ * @param {Object} svg - The SVG container for the chart.
+ * @param {number} width - The width of the chart.
+ * @param {number} height - The height of the chart.
+ * @param {Object} margin - The margin of the chart.
  */
 export function drawBars (data, color, x, y, svg, width, height, margin) {
   const subgroups = data.columns.slice(1)
