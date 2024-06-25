@@ -30,16 +30,11 @@ main {
     cursor: default;
 }
 
-.viz1-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.viz4-container,
-.viz6-container,
+.viz1-container,
 .viz3-container,
+.viz4-container,
+.viz5-container,
+.viz6-container,
 .viz7-container {
     width: 100%;
     height: 100%;
@@ -48,43 +43,24 @@ main {
     align-items: center;
 }
 
-.viz2-main {
-    height: 100%;
-    padding-right: 25px;
-}
-
-.viz2-container {
-    height: 100%;
-    padding: 0 100px;
-}
-
-.viz2-graph {
-    width: 100%;
-    height: 100%;
+.viz5-dropdown {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: 60px;
 }
 
-.viz2-legend-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-}
-
-.viz2-legend {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.viz3-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#categoryDropdown {
+    width: 10%;
+    padding: 10px;
+    font-size: 16px;
+    color: #000000;
+    border-color: #000000;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.5s;
 }
 
 .title,
@@ -135,28 +111,6 @@ main {
     font-size: 15px;
 }
 
-.viz7-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.viz6-tooltip {
-    position: absolute;
-    pointer-events: none;
-    opacity: 0;
-    background-color: black;
-    color: whitesmoke;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-family: "Roboto Slab", "serif";
-    font-size: 12px;
-    z-index: 9999;
-}
-
 .tooltip {
     position: absolute;
     pointer-events: none;
@@ -189,31 +143,4 @@ main {
     position: relative;
     height: auto;
     min-height: 90%;
-}
-
-.viz5-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.viz5-dropdown {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 60px;
-}
-
-#categoryDropdown {
-    width: 10%;
-    padding: 10px;
-    font-size: 16px;
-    color: #000000;
-    border-color: #000000;
-    border-radius: 5px;
-    outline: none;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.5s;
 }
