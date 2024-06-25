@@ -33,7 +33,7 @@ export function updateYScale (scale, data, height) {
  * @param {number} height - The height of the chart.
  * @param {Object} margin - The margin configuration.
  */
-export function drawBars(data, color, x, y, svg, width, height, margin) {
+export function drawBars (data, color, x, y, svg, width, height, margin) {
   svg.append('g')
     .selectAll('rect')
     .data(data)
@@ -48,7 +48,7 @@ export function drawBars(data, color, x, y, svg, width, height, margin) {
     .on('mouseout', tip.tooltip.hide)
     .on('mousemove', function (event, d) {
       tip.tooltip.show(d, this)
-    });
+    })
 
   svg.append('text')
     .attr('class', 'x-axis-label')
