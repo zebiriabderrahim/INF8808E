@@ -22,8 +22,8 @@ export function build () {
 
     d3.csv('./attempts_summary_no_matchid.csv').then(function (data) {
       data.forEach(d => {
-        d['TotalAttemptsOnTarget'] = +d['TotalAttemptsOnTarget']
-        d['TotalAttemptsOffTarget'] = +d['TotalAttemptsOffTarget']
+        d.TotalAttemptsOnTarget = +d.TotalAttemptsOnTarget
+        d.TotalAttemptsOffTarget = +d.TotalAttemptsOffTarget
       })
 
       const xScale = d3.scaleLinear()
