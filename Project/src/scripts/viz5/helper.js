@@ -1,7 +1,10 @@
 /**
- * @param width
- * @param height
- * @param margin
+ * Generates an SVG element with the specified width, height, and margin.
+ *
+ * @param {number} width - The width of the SVG element.
+ * @param {number} height - The height of the SVG element.
+ * @param {object} margin - The margin object with properties `left`, `right`, `top`, and `bottom`.
+ * @returns {object} - The generated SVG element.
  */
 export function generateSVG (width, height, margin) {
   const svg = d3

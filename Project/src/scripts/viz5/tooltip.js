@@ -7,7 +7,10 @@ export const tooltip = d3Tip()
   })
 
 /**
- * @param d
+ * Returns the content for the tooltip.
+ *
+ * @param {object} d - The data object.
+ * @returns {string} The HTML content for the tooltip.
  */
 function getContent (d) {
   return `

@@ -1,10 +1,12 @@
 import * as tip from './tooltip'
 
 /**
- * @param data
- * @param svg
- * @param width
- * @param height
+ * Draws a bar chart using the provided data.
+ *
+ * @param {Array} data - The data to be visualized in the bar chart.
+ * @param {object} svg - The SVG element to append the chart to.
+ * @param {number} width - The width of the chart.
+ * @param {number} height - The height of the chart.
  */
 export function drawBarChart (data, svg, width, height) {
   const y = d3

@@ -22,6 +22,7 @@ export function build () {
 
     /**
      * Loads the data and updates the scales.
+     *
      * @param {Array} data - The data to be visualized.
      */
     d3.csv('./attempts_summary_no_matchid.csv').then(function (data) {
