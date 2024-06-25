@@ -1,9 +1,9 @@
 import * as tip from './tooltip'
 
 /**
- * @param scale
- * @param data
- * @param width
+ * @param {d3.scale} scale - The x scale.
+ * @param {Array} data - The data.
+ * @param {number} width - The width.
  */
 export function updateXScale (scale, data, width) {
   const sortedTeams = data.sort((a, b) => a.AverageGoalsPerPlayerByTeam - b.AverageGoalsPerPlayerByTeam).map(d => d.Team)
@@ -13,9 +13,9 @@ export function updateXScale (scale, data, width) {
 }
 
 /**
- * @param scale
- * @param data
- * @param height
+ * @param {d3.scale} scale - The y scale.
+ * @param {Array} data - The data.
+ * @param {number} height - The height.
  */
 export function updateYScale (scale, data, height) {
   const max = d3.max(data, d => d.AverageGoalsPerPlayerByTeam)
@@ -25,15 +25,15 @@ export function updateYScale (scale, data, height) {
 
 /**
  * @param {Array} data - The data for the bars.
- * @param {Object} color - The color configuration.
- * @param {function} x - The x scale function.
- * @param {function} y - The y scale function.
- * @param {Object} svg - The SVG container.
+ * @param {object} color - The color configuration.
+ * @param {Function} x - The x scale function.
+ * @param {Function} y - The y scale function.
+ * @param {object} svg - The SVG container.
  * @param {number} width - The width of the chart.
  * @param {number} height - The height of the chart.
- * @param {Object} margin - The margin configuration.
+ * @param {object} margin - The margin configuration.
  */
-export function drawBars(data, color, x, y, svg, width, height, margin) {
+export function drawBars (data, color, x, y, svg, width, height, margin) {
   svg.append('g')
     .selectAll('rect')
     .data(data)
@@ -48,7 +48,7 @@ export function drawBars(data, color, x, y, svg, width, height, margin) {
     .on('mouseout', tip.tooltip.hide)
     .on('mousemove', function (event, d) {
       tip.tooltip.show(d, this)
-    });
+    })
 
   svg.append('text')
     .attr('class', 'x-axis-label')
