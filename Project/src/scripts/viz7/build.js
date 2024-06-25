@@ -25,6 +25,7 @@ export function build () {
 
     /**
      * Loads the data and updates the scales.
+     *
      * @param {Array} data - The data to be visualized.
      */
     d3.csv('./pass_accuracy.csv').then(function (data) {

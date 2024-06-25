@@ -30,14 +30,14 @@ export function updateYScale (scale, data, height) {
 /**
  * Draws the bars for a stacked bar chart.
  *
- * @param {Object[]} data - The data for the chart.
- * @param {Object} color - The color scheme for the chart.
+ * @param {object[]} data - The data for the chart.
+ * @param {object} color - The color scheme for the chart.
  * @param {Function} x - The x-axis scale function.
  * @param {Function} y - The y-axis scale function.
- * @param {Object} svg - The SVG container for the chart.
+ * @param {object} svg - The SVG container for the chart.
  * @param {number} width - The width of the chart.
  * @param {number} height - The height of the chart.
- * @param {Object} margin - The margin of the chart.
+ * @param {object} margin - The margin of the chart.
  */
 export function drawBars (data, color, x, y, svg, width, height, margin) {
   const subgroups = data.columns.slice(1)

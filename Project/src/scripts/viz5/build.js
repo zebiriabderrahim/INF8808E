@@ -5,6 +5,7 @@ import * as viz from './viz_5'
 
 /**
  * Builds a bar chart visualization based on the provided data.
+ *
  * @param {string} category - The category to filter the data by. Defaults to 'all'.
  */
 export function build (category = 'all') {

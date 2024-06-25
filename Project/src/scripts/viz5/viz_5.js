@@ -2,6 +2,7 @@ import * as tip from './tooltip'
 
 /**
  * Draws a bar chart using the provided data.
+ *
  * @param {Array} data - The data to be visualized in the bar chart.
  * @param {object} svg - The SVG element to append the chart to.
  * @param {number} width - The width of the chart.
