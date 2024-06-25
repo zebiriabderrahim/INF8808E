@@ -5,6 +5,8 @@ import * as helper from './helper'
 import * as legend from './legend'
 
 /**
+ * Builds the visualization.
+ *
  * @file This file is the entry-point for the code of the performance heatmap.
  */
 export function build () {

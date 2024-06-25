@@ -1,9 +1,11 @@
 import d3Tip from 'd3-tip'
 
-export const tooltip = d3Tip().attr('class', 'd3-tip').html(function (d) {
-  return getContent(d)
-})
-
+/**
+ * Get the content for the tooltip.
+ *
+ * @param {any} d - The data object.
+ * @returns {string} The tooltip content.
+ */
 function getContent (d) {
   if (typeof d === 'string') {
     return `Outlier Value: ${d}%`
@@ -25,3 +27,7 @@ function getContent (d) {
     </div>
   `
 }
+
+export const tooltip = d3Tip().attr('class', 'd3-tip').html(function (d) {
+  return getContent(d)
+})

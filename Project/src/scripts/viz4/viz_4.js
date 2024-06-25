@@ -2,9 +2,11 @@ import * as tip from './tooltip'
 import * as helper from './helper'
 
 /**
- * @param scale
- * @param data
- * @param width
+ * Update the X scale.
+ *
+ * @param {d3.ScaleLinear} scale - The X scale.
+ * @param {Array} data - The data.
+ * @param {number} width - The width.
  */
 export function updateXScale (scale, data, width) {
   scale.domain([20, 80])
@@ -12,9 +14,11 @@ export function updateXScale (scale, data, width) {
 }
 
 /**
- * @param scale
- * @param data
- * @param height
+ * Update the Y scale.
+ *
+ * @param {d3.ScaleBand} scale - The Y scale.
+ * @param {Array} data - The data.
+ * @param {number} height - The height.
  */
 export function updateYScale (scale, data, height) {
   const teams = data.map(d => d.TeamName)
@@ -25,20 +29,18 @@ export function updateYScale (scale, data, height) {
 
 /** Draw the box and whisker plot
  *
- * @param data
- * @param color
- * @param x
- * @param y
- * @param svg
- * @param width
- * @param height
- * @param margin
+ * @param {Array} data - The data.
+ * @param {object} color - The color object.
+ * @param {d3.ScaleLinear} x - The X scale.
+ * @param {d3.ScaleBand} y - The Y scale.
+ * @param {SVGElement} svg - The SVG element.
+ * @param {number} width - The width.
+ * @param {number} height - The height.
+ * @param {object} margin - The margin object.
  */
 export function drawBoxes (data, color, x, y, svg, width, height, margin) {
-  // Draw the box and whisker plot
   const boxWidth = 15
 
-  // Create a group for each data point
   const groups = svg.selectAll('.box')
     .data(data)
     .enter()
@@ -46,7 +48,6 @@ export function drawBoxes (data, color, x, y, svg, width, height, margin) {
     .attr('class', 'box')
     .attr('transform', d => `translate(0, ${y(d.TeamName)})`)
 
-  // Draw the whiskers
   groups.append('line')
     .attr('x1', d => x(d3.min(helper.getOultiers(d.BallPossession))))
     .attr('y1', 0)
@@ -55,7 +56,6 @@ export function drawBoxes (data, color, x, y, svg, width, height, margin) {
     .attr('stroke', d => d.TeamName === 'Italy' ? color.Italy : color.default)
     .attr('stroke-width', 2)
 
-  // Draw the box
   groups.append('rect')
     .attr('x', d => x(d3.quantile(d.BallPossession, 0.25)))
     .attr('y', -boxWidth / 2)
@@ -67,7 +67,6 @@ export function drawBoxes (data, color, x, y, svg, width, height, margin) {
     })
     .on('mouseout', tip.tooltip.hide)
 
-  // Draw the vertical line delimiter
   groups.append('line')
     .attr('x1', d => x(Math.min(d3.min(helper.getOultiers(d.BallPossession)), d3.quantile(d.BallPossession, 0.25))))
     .attr('y1', -boxWidth / 4)
@@ -84,7 +83,6 @@ export function drawBoxes (data, color, x, y, svg, width, height, margin) {
     .attr('stroke', 'black')
     .attr('stroke-width', 2)
 
-  // Draw the median line
   groups.append('line')
     .attr('x1', d => x(d3.median(d.BallPossession)))
     .attr('y1', -boxWidth / 2)
@@ -92,7 +90,6 @@ export function drawBoxes (data, color, x, y, svg, width, height, margin) {
     .attr('y2', boxWidth / 2)
     .attr('stroke', 'red')
 
-  // Draw the outliers
   groups.selectAll('.outlier')
     .data(d => {
       const lowerBound = d3.quantile(d.BallPossession, 0.25) - 1.5 * (d3.quantile(d.BallPossession, 0.75) - d3.quantile(d.BallPossession, 0.25))

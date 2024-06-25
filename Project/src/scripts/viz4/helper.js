@@ -1,7 +1,10 @@
 /**
- * @param width
- * @param height
- * @param margin
+ * Generates an SVG element.
+ *
+ * @param {number} width - The width of the SVG.
+ * @param {number} height - The height of the SVG.
+ * @param {object} margin - The margin object.
+ * @returns {object} - The generated SVG element.
  */
 export function generateSVG (width, height, margin) {
   return d3.select('.viz4-container')
@@ -15,7 +18,10 @@ export function generateSVG (width, height, margin) {
 }
 
 /**
- * @param data
+ * Filters outliers from the data.
+ *
+ * @param {Array} data - The data array.
+ * @returns {Array} - The filtered data array.
  */
 export function getOultiers (data) {
   const q1 = d3.quantile(data, 0.25)

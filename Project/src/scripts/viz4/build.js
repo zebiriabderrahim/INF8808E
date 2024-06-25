@@ -5,7 +5,7 @@ import * as helper from './helper'
 import * as legend from './legend'
 
 /**
- *
+ * Builds the visualization.
  */
 export function build () {
   (function (d3) {

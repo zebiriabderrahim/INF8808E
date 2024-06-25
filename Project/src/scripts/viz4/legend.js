@@ -1,5 +1,5 @@
 /**
- *
+ * Draws a legend for the visualization.
  */
 export function drawLegend () {
   const legendData = [
